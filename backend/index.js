@@ -1,6 +1,7 @@
 // index.js
 const express = require('express');
 const axios = require("axios");
+const { addComment, getComments, updateMovieRating, getRating } = require('./functions/firebase');
 
 const app = express();
 const PORT = 4000;
@@ -11,17 +12,76 @@ let rapidBaseUrl = apiFile["rapid_api_url"];
 let tmdbApiToken = apiFile["tmdb_api_token"];
 let tmdbBaseUrl = apiFile["tmdb_api_url"];
 
-app.listen(PORT, () => {
-  console.log(`API listening on PORT ${PORT} `)
-});
-
 app.get('/', (req, res) => {
   res.send('Hey this is my API running 🥳')
 });
 
-app.get('/about', (req, res) => {
-  res.send('This is my about route..... ')
+
+app.post('/comments', (req, res) => {
+  const movieId = req.body.movieId;
+  const userID = req.body.userID;
+  const userName = req.body.userName;
+  const comment = req.body.comment;
+  if (!movieId || !userID || !userName || !comment) {
+    return res.status(400).send('Please provide a movieId, userID, userName and comment.');
+  }
+  addComment(movieId, { userID, userName, comment })
+    .then(() => {
+      res.status(201).send('Comment added successfully.');
+    })
+    .catch(err => {
+      console.error(err);
+      res.status(500).send('Something went wrong.');
+    });
 });
+
+app.get('/comments', (req, res) => {
+  const movieId = req.query.movieId;
+  if (!movieId) {
+    return res.status(400).send('Please provide a movieId.');
+  }
+  getComments(movieId)
+    .then(comments => {
+      res.json(comments);
+    })
+    .catch(err => {
+      console.error(err);
+      res.status(500).send('Something went wrong.');
+    });
+});
+
+app.post('/rating', (req, res) => {
+  const movieId = req.body.movieId;
+  const rating = req.body.rating;
+  if (!movieId || !rating) {
+    return res.status(400).send('Please provide a movieId and rating.');
+  }
+  updateMovieRating(movieId, rating)
+    .then(() => {
+      res.status(201).send('Rating added successfully.');
+    })
+    .catch(err => {
+      console.error(err);
+      res.status(500).send('Something went wrong.');
+    });
+});
+
+app.get('/rating', (req, res) => {
+  const movieId = req.query.movieId;
+  if (!movieId) {
+    return res.status(400).send('Please provide a movieId.');
+  }
+  getRating(movieId)
+    .then(rating => {
+      res.json(rating);
+    })
+    .catch(err => {
+      console.error(err);
+      res.status(500).send('Something went wrong.');
+    });
+});
+
+
 
 app.get('/services', (req, res) => {
   let services = {};
@@ -119,6 +179,8 @@ function isValidGenresRequest(req) {
 }
 
 
-
+app.listen(PORT, () => {
+  console.log(`API listening on PORT ${PORT} `)
+});
 // Export the Express API
 module.exports = app;
