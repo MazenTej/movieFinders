@@ -11,7 +11,7 @@ let rapidBaseUrl = apiFile["rapid_api_url"];
 let tmdbApiToken = apiFile["tmdb_api_token"];
 let tmdbBaseUrl = apiFile["tmdb_api_url"];
 
-app.listen(PORT, "localhost", () => {
+app.listen(PORT, () => {
   console.log(`API listening on PORT ${PORT} `)
 });
 
