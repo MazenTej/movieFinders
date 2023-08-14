@@ -1,4 +1,3 @@
-
 import { useContext, useEffect } from 'react'
 import { Routes , Route, useNavigate } from 'react-router-dom'
 import { MantineProvider, Text } from '@mantine/core';
@@ -8,6 +7,7 @@ import RequireAuth from './components/RequireAuth'
 import Home from './routes/home'
 import Profile from './routes/profile'
 import React from 'react'
+import HomePage from "./pages/Home/Home"
 
 function App() {
   const { currentUser } = useContext(AuthContext)
