@@ -1,7 +1,7 @@
 import React from 'react';
 import { Card, Container, Grid, Text } from '@mantine/core';
-import   {Navbar} from './components/Navbar';
-import CardsCarousel from './components/CardCarousel'; // Your CardsCarousel component
+import   {Navbar} from '../components/Navbar';
+import CardsCarousel from '../components/CardCarousel'; // Your CardsCarousel component
 
 const categories = ['Action', 'Comedy', 'Drama', 'Sci-Fi', 'Horror'];
 const data = [
@@ -32,7 +32,7 @@ const data = [
   ];
   
 
-function App() {
+function Home() {
     
   return (
     <div>
@@ -42,4 +42,4 @@ function App() {
   );
 }
 
-export default App;
+export default Home;
