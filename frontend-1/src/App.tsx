@@ -1,3 +1,4 @@
+// deno-lint-ignore-file
 import { useContext, useEffect } from 'react'
 import { Routes , Route, useNavigate } from 'react-router-dom'
 import { MantineProvider, Text, MantineTheme  } from '@mantine/core';

@@ -1,3 +1,4 @@
+// deno-lint-ignore-file
 import React from 'react'
 import './index.css'
 

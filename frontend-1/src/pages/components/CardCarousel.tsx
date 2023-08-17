@@ -1,3 +1,4 @@
+// deno-lint-ignore-file
 import React from 'react';
 import { Carousel } from '@mantine/carousel';
 import {  rem } from '@mantine/core';

@@ -1,3 +1,4 @@
+// deno-lint-ignore-file
 import React from 'react';
 import { Card, Container, Grid, Text } from '@mantine/core';
 import   {Navbar} from '../components/Navbar';

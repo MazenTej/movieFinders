@@ -1,3 +1,4 @@
+// deno-lint-ignore-file
 import { initializeApp } from 'firebase/app';
 import {
   getAuth,

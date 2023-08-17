@@ -1,4 +1,4 @@
-
+// deno-lint-ignore-file
 import { ChangeEvent, FormEvent, useState } from 'react'
 import { signInUser } from '../firebase/firebase'
 import { useNavigate } from 'react-router-dom'

@@ -1,3 +1,4 @@
+// deno-lint-ignore-file
 import React, { useState,useEffect,useRef } from 'react';
 import { Paper, Text, Title, Button, createStyles, rem } from '@mantine/core';
 

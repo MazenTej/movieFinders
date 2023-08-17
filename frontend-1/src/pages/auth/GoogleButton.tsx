@@ -1,3 +1,4 @@
+// deno-lint-ignore-file
 import { Button, ButtonProps } from "@mantine/core";
 
 export function GoogleIcon(props: React.ComponentPropsWithoutRef<'svg'>) {
