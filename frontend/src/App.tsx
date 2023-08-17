@@ -6,7 +6,6 @@ import { AuthContext } from './context/AuthContext'
 import RequireAuth from './components/RequireAuth'
 import Home from './routes/Home'
 import Profile from './routes/profile'
-import React from 'react'
 import HomePage from "./pages/Home/Home"
 
 function App() {
