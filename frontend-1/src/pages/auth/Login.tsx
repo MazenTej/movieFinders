@@ -13,6 +13,7 @@ import {
   Checkbox,
   Anchor,
   Stack,
+  MantineProvider,
 } from '@mantine/core';
 import { GoogleButton, GoogleIcon } from './GoogleButton'
 import { signInUser, signUpUser , signInWithGoogle, signInWithCredentialGoogle} from '../../firebase/firebase'
@@ -69,6 +70,7 @@ export default function AuthenticationForm(props: PaperProps) {
 
 
   return (
+    <MantineProvider withGlobalStyles withNormalizeCSS >
     <Paper radius="md" p="xl" withBorder {...props} styles={
       {display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', maxWidth: '500px', margin: 'auto'}
     }>
@@ -143,5 +145,6 @@ export default function AuthenticationForm(props: PaperProps) {
         </Group>
       </form>
     </Paper>
+</MantineProvider>
   );
 }
