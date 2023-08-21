@@ -11,8 +11,6 @@ import React from 'react'
 import HomePage from "./pages/Home/Home"
 import AuthenticationForm from "./pages/auth/Login" 
 import LoginPortal from "./pages/auth/index"
-import Info from './pages/details';
-
 
 
 
@@ -29,20 +27,20 @@ function App() {
   }, [currentUser])
     
   return (
-    
+    <MantineProvider withGlobalStyles withNormalizeCSS >
     <Routes>
       <Route index element={<HomePage />} />
-      <Route path="/:mediaType/:id" element={<Info />} />
       <Route path="login" element={<LoginPortal text='Login to continue'>
         <AuthenticationForm />
       </LoginPortal>
         } />
       <Route path="profile" element={
         <RequireAuth>
-          <Profile/>
+          <Profile />
         </RequireAuth>}
       />
     </Routes>
+    </MantineProvider>
   )
 }
 
