@@ -1,10 +1,8 @@
 // deno-lint-ignore-file
-import React from 'react';
-import { Card, Container, Grid, Text } from '@mantine/core';
-import   {Navbar} from '../components/Navbar';
+import {Navbar} from '../components/Navbar';
 import CardsCarousel from '../components/CardCarousel'; // Your CardsCarousel component
+import { useLocation } from 'react-router-dom';
 
-const categories = ['Action', 'Comedy', 'Drama', 'Sci-Fi', 'Horror'];
 const data = [
     {
       image:
@@ -31,13 +29,14 @@ const data = [
         'A thief who steals corporate secrets through the use of dream-sharing technology is given the inverse task of planting an idea into the mind of a C.E.O.',
     },
   ];
-  
 
 function Home() {
-    
+  const location = useLocation();
+  let userName = location.state?.userName;
+
   return (
     <div>
-        <Navbar user="Mazen Tej" />
+        <Navbar user={userName}/>
      <CardsCarousel data={data}/>
     </div>
   );

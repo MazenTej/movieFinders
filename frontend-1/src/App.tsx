@@ -24,7 +24,7 @@ function App() {
   // Check if currentUser exists on initial render
   useEffect(() => {
     if (currentUser) {
-      navigate('/profile')
+      navigate('/', {state: {userName: currentUser.email?.substring(0, currentUser.email.indexOf("@"))}})
     }
   }, [currentUser])
     
