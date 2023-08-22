@@ -106,7 +106,7 @@ export function Navbar({ user }: NavBarProps) {
   const { classes } = useStyles();
 
   const items = [
-    { label: 'Movies', link: '/movies' },
+    { label: 'Movies', link: './Movies/Movies.tsx' },
     { label: 'Series', link: '/series' },
     { label: 'Documentaries', link: '/documentaries' },
   ].map((link) => (
