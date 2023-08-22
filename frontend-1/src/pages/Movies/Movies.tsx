@@ -2,7 +2,7 @@ import React from 'react';
 import { Card, Container, Grid, Text } from '@mantine/core';
 import   {Navbar} from '../components/Navbar';
 import CardsCarousel from '../components/CardCarousel';
-import {  } from "react-icons/fa";
+import { } from "react-icons/fa";
 
 const categories = ['Netflix', 'Disney+', 'Amazong Prime', 'Hulu', 'Apple TV+', 'YouTube', 'Paramount+', 'Vudu', 'Max', 'Discovery'];
 
