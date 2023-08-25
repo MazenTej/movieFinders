@@ -1,38 +1,36 @@
-// deno-lint-ignore-file
 import React from 'react';
 import { Carousel } from '@mantine/carousel';
-import {  rem } from '@mantine/core';
-
+import { useMantineTheme, rem } from '@mantine/core';
 import MovieCard from './MovieCard';
 
 interface Movie {
   image: string;
   title: string;
   category: string;
-  info: string
+  info: string;
 }
 
-interface MovieCarouselProps {
-  data: Movie[];
+interface CardsCarouselProps {
+  movies: Movie[];
 }
 
-function MovieCarousel({ data }: MovieCarouselProps) {
-  const slides = data.map((item, index) => (
-    <Carousel.Slide key={index}>
-      <MovieCard {...item} />
+export function CardsCarousel({ movies }: CardsCarouselProps) {
+  const theme = useMantineTheme();
+  
+  const slides = movies.map((movie) => (
+    <Carousel.Slide key={movie.title}>
+      <MovieCard {...movie} />
     </Carousel.Slide>
   ));
 
   return (
     <Carousel
-      slideSize="50%"
-      breakpoints={[{ maxWidth: 'sm', slideSize: '100%', slideGap: rem(2) }]}
-      slideGap="xl"
+      slideSize="20%" 
+      slideGap="xs"
       align="start"
+      slidesToScroll={1}
     >
       {slides}
     </Carousel>
   );
 }
-
-export default MovieCarousel;
