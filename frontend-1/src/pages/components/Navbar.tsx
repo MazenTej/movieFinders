@@ -12,6 +12,8 @@ import {
   Avatar
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
+import { useState } from "react";
+import DropdownMenu from "./DropdownMenu";
 
 const HEADER_HEIGHT = rem(60);
 
@@ -98,12 +100,21 @@ const useStyles = createStyles((theme) => ({
 }));
 
 interface NavBarProps {
-  user: string;
+  user?: string | null;
 }
 
 export function Navbar({ user }: NavBarProps) {
   const [opened, { toggle, close }] = useDisclosure(false);
+  const [dropdownVisible, setDropdownVisibility] = useState(false);
   const { classes } = useStyles();
+
+  const onMouseEnter = () => {
+    setDropdownVisibility(true);
+  }
+
+  const onMouseLeave = () => {
+    setDropdownVisibility(false);
+  }
 
   const items = [
     { label: 'Movies', link: '/movies' },
@@ -130,10 +141,17 @@ export function Navbar({ user }: NavBarProps) {
           {items}
         </Group>
         <div className={classes.user}>
-        <Avatar size={28} radius="xl" color="blue">
-            MT
-          </Avatar>
-          <span className={classes.userName}>{user}</span>
+          <div className="dropdown"
+              onMouseEnter={onMouseEnter}
+              onMouseLeave={onMouseLeave}>
+            <Avatar size={28} radius="xl" color="blue" ></Avatar>
+            {dropdownVisible && <DropdownMenu />}
+          </div>
+          {user ? <span className={classes.userName}>{user}</span> : 
+            <a key='sign-in' href='/login' className={classes.link}>
+              Sign-in / Sign-up
+            </a>
+          }
         </div>
         <Burger opened={opened} onClick={toggle} className={classes.burger} size="sm" />
         <Transition transition="pop-top-right" duration={200} mounted={opened}>
