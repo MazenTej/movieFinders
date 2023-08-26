@@ -15,7 +15,6 @@ import Info from './pages/details';
 
 
 
-
 function App() {
   const { currentUser } = useContext(AuthContext)
   const navigate = useNavigate()
@@ -23,9 +22,9 @@ function App() {
 
   // Check if currentUser exists on initial render
   useEffect(() => {
-    if (currentUser) {
-      navigate('/profile')
-    }
+    // if (currentUser) {
+    //   navigate('/profile')
+    // }
   }, [currentUser])
     
   return (

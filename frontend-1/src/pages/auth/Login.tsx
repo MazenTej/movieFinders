@@ -38,17 +38,17 @@ export default function AuthenticationForm(props: PaperProps) {
   });
   const [error, setError] = useState('')
   const navigate = useNavigate()
-
+  let referrer = document.referrer;
 
   const onSubmit = async () => {
     if (type === 'login') {
       await signInUser(form.values.email, form.values.password)
-      navigate(-1)
+      referrer ? window.location.href = referrer : navigate('/'); 
     } else {
       try{
         await signUpUser(form.values.email, form.values.password)
         await signInUser(form.values.email, form.values.password)
-        navigate(-1)
+        referrer ? window.location.href = referrer : navigate('/'); 
       }
       catch(error){
         setError('Email already in use')
@@ -60,7 +60,7 @@ export default function AuthenticationForm(props: PaperProps) {
   const withGoogle = async () => {
     try{
       const result = await signInWithGoogle()
-      // @ts-ignore
+       
     }
     catch(error){
       console.log(error)
