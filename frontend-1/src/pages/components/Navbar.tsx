@@ -107,7 +107,8 @@ export function Navbar({ user }: NavBarProps) {
   const [opened, { toggle, close }] = useDisclosure(false);
   const [dropdownVisible, setDropdownVisibility] = useState(false);
   const { classes } = useStyles();
-
+  const dropdownAvailable = user ? true : false;
+  
   const onMouseEnter = () => {
     setDropdownVisibility(true);
   }
@@ -141,14 +142,15 @@ export function Navbar({ user }: NavBarProps) {
           {items}
         </Group>
         <div className={classes.user}>
-          <div className="dropdown"
+          {user ? <div className="dropdown"
               onMouseEnter={onMouseEnter}
               onMouseLeave={onMouseLeave}>
-            <Avatar size={28} radius="xl" color="blue" ></Avatar>
-            {dropdownVisible && <DropdownMenu />}
-          </div>
-          {user ? <span className={classes.userName}>{user}</span> : 
-            <a key='sign-in' href='/login' className={classes.link}>
+              <Avatar size={28} radius="xl" color="blue" ></Avatar>
+              {dropdownVisible && <DropdownMenu />}
+            </div> : ""}
+          {user ? 
+            <span className={classes.userName}>{user}</span>
+          : <a key='sign-in' href='/login' className={classes.link}>
               Sign-in / Sign-up
             </a>
           }

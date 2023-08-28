@@ -7,6 +7,7 @@ import { AuthContext } from './context/AuthContext'
 import RequireAuth from './components/RequireAuth'
 import Home from './routes/Home'
 import Profile from './routes/profile'
+import Favorites from './pages/favorites/favorites'
 import React from 'react'
 import HomePage from "./pages/Home/Home"
 import AuthenticationForm from "./pages/auth/Login" 
@@ -42,6 +43,8 @@ function App() {
           <Profile/>
         </RequireAuth>}
       />
+      <Route path="favorites" element={
+        <Favorites/>}/>
     </Routes>
   )
 }

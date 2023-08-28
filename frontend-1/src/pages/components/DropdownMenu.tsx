@@ -1,11 +1,15 @@
-import React from "react";
+import { useContext } from 'react'
+import { AuthContext } from '../../context/AuthContext'
+import {Link} from 'react-router-dom'
 
 const DropdownMenu = () => {
+  const { signOut } = useContext(AuthContext);
+
   return (
     <div className="dropdown-menu">
-        <a>Profile</a>
-        <a>Favorites</a>
-        <a>Sign out</a>
+        <Link to='/profile'>Profile</Link>
+        <Link to='/favorites'>Favorites</Link>
+        <Link to='/' onClick={signOut}>Sign out</Link>
     </div>
   );
 };
