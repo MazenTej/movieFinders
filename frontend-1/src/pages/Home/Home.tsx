@@ -8,19 +8,13 @@ interface Movie {
   title: string;
   category: string;
   info: string;
+  type: string;
 }
 interface MovieService {
   [serviceName: string]: Movie[];
 }
 
-function mapDataToMovie(data: any): Movie[] {
-  return data.map((item: any) => ({
-    title: item.title,
-    category: item.genres[0]?.name || "Unknown", // Using the first genre as category
-    info: item.type === 'series' ? `${item.firstAirYear} - ${item.lastAirYear}` : `${item.year}`, // Displaying years
-    image: `https://image.tmdb.org/t/p/w500${item.tmdbId}.jpg`, // Assuming you can get images via TMDB with tmdbId (you might need to adjust this)
-  }));
-}
+
 
 function transformMoviesArray(moviesArray: any[]): Record<string, Movie[]> {
   const transformedData: Record<string, Movie[]> = {};
@@ -42,6 +36,7 @@ function transformMoviesArray(moviesArray: any[]): Record<string, Movie[]> {
             category: movie.genres?.[0]?.name || "Unknown",
             info: movie.type === 'series' ? `${movie.firstAirYear} - ${movie.lastAirYear}` : `${movie.year}`,
             image: movie.image,
+            type: movie.type
           };
 
           transformedData[serviceName].push(transformedMovie);
@@ -65,7 +60,8 @@ function capitalize(str: string) {
 function Home() {
   const [services, setServices] = useState<Record<string, any>>({});
   const [showsByService, setShowsByService] = useState<MovieService>({});
-  const [error, setError] = useState("");
+  const [selectedGenre, setSelectedGenre] = useState<string>("all");
+
 
   
 
@@ -86,7 +82,8 @@ function Home() {
 
 
 useEffect(()=> {
-  console.log("shows",showsByService)
+  const movies=transformMoviesArray(mov)
+  setShowsByService(movies)
 },[showsByService])
 // useEffect(()=> {
 //   fetch(`http://localhost:4000/moviesByServices/${servList}`)
@@ -97,6 +94,18 @@ useEffect(()=> {
 //     console.log("after",movies)
 //   })
 // },[])
+const filteredMovies: Record<string, Movie[]> = Object.keys(showsByService).reduce(
+  (filteredData, serviceName) => {
+    const filteredServiceMovies = showsByService[serviceName].filter(
+      (movie) => selectedGenre === "all" || movie.category.toLowerCase() === selectedGenre.toLowerCase()
+    );
+    if (filteredServiceMovies.length > 0) {
+      filteredData[serviceName] = filteredServiceMovies;
+    }
+    return filteredData;
+  },
+  {} as Record<string, Movie[]> // Initialize with empty object
+);
 
 
 
@@ -130,16 +139,26 @@ useEffect(()=> {
   // },[showsByService])
   return (
     <div style={{ display: 'flex', flexDirection: 'column' }}>
-      <Navbar user="Mazen Tej" />
-      <Container size={1200} style={{ marginTop: '1300px' }}>
+      <Navbar user="Mazen Tej" selectedGenre={selectedGenre} setSelectedGenre={setSelectedGenre} />
+      <Container>
+      <div style={{ height: '600px',width:"1000px", overflowY: 'scroll' }}>
+
         {Object.keys(showsByService).map((serviceName) => (
           <div key={serviceName}>
             <Title order={2}>
               {capitalize(serviceName)}
             </Title>
-            <CardsCarousel movies={showsByService[serviceName] || []} />
-          </div>
+
+            {filteredMovies[serviceName] && filteredMovies[serviceName].length > 0 ? (
+              <CardsCarousel movies={filteredMovies[serviceName]} />
+            ) : (
+              <Text>No movies available for the selected genre</Text>
+            )}          </div>
         ))}
+                </div>
+
+
+
       </Container>
     </div>
   );

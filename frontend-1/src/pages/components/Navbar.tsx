@@ -1,5 +1,5 @@
 // deno-lint-ignore-file
-import React from 'react';
+import React, { useState } from 'react';
 import {
   createStyles,
   Header,
@@ -9,7 +9,8 @@ import {
   Paper,
   Transition,
   rem,
-  Avatar
+  Avatar,
+  Select
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 
@@ -100,16 +101,18 @@ const useStyles = createStyles((theme) => ({
 
 interface NavBarProps {
   user: string;
+  setSelectedGenre: React.Dispatch<React.SetStateAction<string>>; // Add prop type
+  selectedGenre: string; 
+
 }
 
-export function Navbar({ user }: NavBarProps) {
+export function Navbar({ user,setSelectedGenre,selectedGenre }: NavBarProps) {
   const [opened, { toggle, close }] = useDisclosure(false);
   const { classes } = useStyles();
 
   const items = [
     { label: 'Movies', link: '/movies' },
     { label: 'Series', link: '/series' },
-    { label: 'Documentaries', link: '/documentaries' },
   ].map((link) => (
     <a
       key={link.label}
@@ -123,6 +126,15 @@ export function Navbar({ user }: NavBarProps) {
       {link.label}
     </a>
   ));
+  const genresOptions = [
+    {value: 'all', label: 'All'},
+    { value: 'action', label: 'Action' },
+    { value: 'drama', label: 'Drama' },
+    { value: 'comedy', label: 'Comedy' },
+    {value: 'documentary',label:'Documentary'},
+    {value: 'horror',label:"Horror"}
+    // Add more genres as needed
+  ];
 
   return (
     <Header height={HEADER_HEIGHT} className={classes.root}>
@@ -130,12 +142,19 @@ export function Navbar({ user }: NavBarProps) {
         <Group spacing={5} className={classes.links}>
           {items}
         </Group>
+        <Select
+          data={genresOptions}
+          value={selectedGenre}
+          onChange={(value: string) => setSelectedGenre(value)} // Specify the type of 'value'
+          placeholder="Select Genre"
+        />
         <div className={classes.user}>
         <Avatar size={28} radius="xl" color="blue">
             MT
           </Avatar>
           <span className={classes.userName}>{user}</span>
         </div>
+       
         <Burger opened={opened} onClick={toggle} className={classes.burger} size="sm" />
         <Transition transition="pop-top-right" duration={200} mounted={opened}>
           {(styles) => (

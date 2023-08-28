@@ -8,6 +8,7 @@ interface Movie {
   title: string;
   category: string;
   info: string;
+  type: string;
 }
 
 interface CardsCarouselProps {

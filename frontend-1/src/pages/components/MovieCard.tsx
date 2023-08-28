@@ -36,7 +36,7 @@ const useStyles = createStyles((theme) => ({
     fontWeight: 900,
     color: theme.white,
     lineHeight: 1.2,
-    fontSize: rem(20),
+    fontSize: rem(19),
     marginTop: theme.spacing.xs,
   },
 
@@ -52,9 +52,11 @@ interface MovieCardProps {
   image: string;
   title: string;
   category: string;
+  info: string;
+  type: string;
 }
 
-function MovieCard({ image, title, category }: MovieCardProps) {
+function MovieCard({ image, title, category,info,type }: MovieCardProps) {
   const { classes } = useStyles();
 
   return (
@@ -64,6 +66,7 @@ function MovieCard({ image, title, category }: MovieCardProps) {
         style={{ backgroundImage: `url(${image})` }}
       ></div>
       <div className={classes.content}>
+      <span className={classes.category}>{info}</span>
         <span className={classes.category}>{category}</span>
         <h3 className={classes.title}>{title}</h3>
       </div>
