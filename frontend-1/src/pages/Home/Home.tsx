@@ -3,6 +3,8 @@ import { Card, Container, Grid, Text, Title } from '@mantine/core';
 import { Navbar } from '../components/Navbar';
 import { CardsCarousel } from '../components/CardCarousel';
 import { dummyService, mov, servList } from './dummydata';
+import { useLocation } from 'react-router-dom';
+
 interface Movie {
   image: string;
   title: string;

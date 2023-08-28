@@ -13,6 +13,8 @@ import {
   Select
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
+import { useState } from "react";
+import DropdownMenu from "./DropdownMenu";
 
 const HEADER_HEIGHT = rem(60);
 
@@ -108,7 +110,17 @@ interface NavBarProps {
 
 export function Navbar({ user,setSelectedGenre,selectedGenre }: NavBarProps) {
   const [opened, { toggle, close }] = useDisclosure(false);
+  const [dropdownVisible, setDropdownVisibility] = useState(false);
   const { classes } = useStyles();
+  const dropdownAvailable = user ? true : false;
+  
+  const onMouseEnter = () => {
+    setDropdownVisibility(true);
+  }
+
+  const onMouseLeave = () => {
+    setDropdownVisibility(false);
+  }
 
   const items = [
     { label: 'Movies', link: '/movies' },
@@ -149,10 +161,18 @@ export function Navbar({ user,setSelectedGenre,selectedGenre }: NavBarProps) {
           placeholder="Select Genre"
         />
         <div className={classes.user}>
-        <Avatar size={28} radius="xl" color="blue">
-            MT
-          </Avatar>
-          <span className={classes.userName}>{user}</span>
+          {user ? <div className="dropdown"
+              onMouseEnter={onMouseEnter}
+              onMouseLeave={onMouseLeave}>
+              <Avatar size={28} radius="xl" color="blue" ></Avatar>
+              {dropdownVisible && <DropdownMenu />}
+            </div> : ""}
+          {user ? 
+            <span className={classes.userName}>{user}</span>
+          : <a key='sign-in' href='/login' className={classes.link}>
+              Sign-in / Sign-up
+            </a>
+          }
         </div>
        
         <Burger opened={opened} onClick={toggle} className={classes.burger} size="sm" />
