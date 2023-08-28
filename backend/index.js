@@ -91,7 +91,7 @@ app.get('/services', (req, res) => {
     for (const [service, details] of Object.entries(results)) {
       let isAvailableInUs = details.countries["us"] !== undefined ? true : false;
       if (isAvailableInUs) {
-        services[service] = details;
+        services[service] = {id: details.id};
       }
     };
 
@@ -105,15 +105,35 @@ app.get('/services', (req, res) => {
   })
 });
 
-app.get('/moviesByServices', (req, res) => {
+// Services parameter is required for this request (comma delimited list).
+// Optional parameters in query string - keyword, output_language, order_by (original_title or year), desc (true or false), genres (ids of the genre), genres_relation
+// Filter by series or movie by show_type query value, default if not provided is both.
+app.get('/moviesByServices/:services', (req, res) => {
   let query = req.query;
+  let params = req.params;
 
-  if (!query.services && !(query.services instanceof String)) {
+  if (!params || !params.services) {
     console.log("Error: request should have a query called services that is a comma delimited list of services.");
     return res.status(400).json({error: "Something went wrong, can not show these movies at this time. Try again at a later time."})
   }
 
-  axios(`${rapidBaseUrl}/search/filters?services=${query.services}&country=us&rapidapi-key=${rapidApiKey}`).then(response => {
+  axios(`${rapidBaseUrl}/search/filters?rapidapi-key=${rapidApiKey}`,
+  {
+    Content_Type: "application/json",
+    params: {
+      services: params.services,
+      country: 'us',
+      keyword: query.keyword,
+      output_language: 'en',
+      order_by: query.order_by,
+      genres: query.genres,
+      genres_relation: query.genres_relation,
+      show_original_language: 'en',
+      desc: query.desc,
+      show_type: query.show_type
+    }
+  }
+  ).then(response => {
     let result = response.data.result;
 
     return res.status(200).json(result);

@@ -24,6 +24,7 @@ const useStyles = createStyles((theme) => ({
     left: 0,
     width: '100%',
     zIndex: 1,
+    marginBottom: "300px"
   },
 
   dropdown: {
