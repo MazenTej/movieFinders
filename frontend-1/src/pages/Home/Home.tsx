@@ -63,7 +63,8 @@ function Home() {
   const [services, setServices] = useState<Record<string, any>>({});
   const [showsByService, setShowsByService] = useState<MovieService>({});
   const [selectedGenre, setSelectedGenre] = useState<string>("all");
-
+  const location = useLocation();
+  let userName = location.state?.userName;
 
   
 
@@ -141,7 +142,7 @@ const filteredMovies: Record<string, Movie[]> = Object.keys(showsByService).redu
   // },[showsByService])
   return (
     <div style={{ display: 'flex', flexDirection: 'column' }}>
-      <Navbar user="Mazen Tej" selectedGenre={selectedGenre} setSelectedGenre={setSelectedGenre} />
+      <Navbar user={userName} selectedGenre={selectedGenre} setSelectedGenre={setSelectedGenre} />
       <Container>
       <div style={{ height: '600px',width:"1000px", overflowY: 'scroll' }}>
 

@@ -1,26 +1,3 @@
-.dropdown {
-    position: relative;
-    display: inline-block;
-}
-
-.dropdown-menu {
-    position: absolute;
-    background-color: #99d5f5bb;
-    min-width: 160px;
-    z-index: 1;
-    border-radius: 4px;
-}
-
-.dropdown-menu a {
-    padding: 5px;
-    margin: 10px;
-    border-radius: 4px;
-}
-
-.dropdown-menu a:hover {
-    background-color: #eceff1b4;
-}
-
 body {
     margin: 0;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',

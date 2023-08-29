@@ -13,7 +13,7 @@ import {
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { useState } from "react";
-import DropdownMenu from "./DropdownMenu";
+import DropdownMenu from "./Dropdown/DropdownMenu";
 
 const HEADER_HEIGHT = rem(60);
 
@@ -111,7 +111,6 @@ export function Navbar({ user,setSelectedGenre,selectedGenre }: NavBarProps) {
   const [opened, { toggle, close }] = useDisclosure(false);
   const [dropdownVisible, setDropdownVisibility] = useState(false);
   const { classes } = useStyles();
-  const dropdownAvailable = user ? true : false;
   
   const onMouseEnter = () => {
     setDropdownVisibility(true);
@@ -163,7 +162,7 @@ export function Navbar({ user,setSelectedGenre,selectedGenre }: NavBarProps) {
           {user ? <div className="dropdown"
               onMouseEnter={onMouseEnter}
               onMouseLeave={onMouseLeave}>
-              <Avatar size={28} radius="xl" color="blue" ></Avatar>
+              <Avatar size={28} radius="xl" color="grape.7" ></Avatar>
               {dropdownVisible && <DropdownMenu />}
             </div> : ""}
           {user ? 
