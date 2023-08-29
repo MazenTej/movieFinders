@@ -21,3 +21,5 @@ export const fetchDataFromApi = async (url: string, params?: FetchParams): Promi
         throw err;
     }
 };
+
+export const API_URL = "http://localhost:4000";

@@ -1,84 +1,55 @@
 // index.js
 const express = require('express');
 const axios = require("axios");
-const { addComment, getComments, updateMovieRating, getRating } = require('./functions/firebase');
+const { addComment, addReply, getCommentsForMovie } = require('./functions/firebase');
+const cors = require('cors');
+
+
 
 const app = express();
 const PORT = 4000;
 
-let apiFile = require("./env.json");
-let rapidApiKey = apiFile["rapid_api_key"];
-let rapidBaseUrl = apiFile["rapid_api_url"];
-let tmdbApiToken = apiFile["tmdb_api_token"];
-let tmdbBaseUrl = apiFile["tmdb_api_url"];
+
+app.use(cors());
+app.use(express.json())
+// let apiFile = require("./env.json");
+// let rapidApiKey = apiFile["rapid_api_key"];
+// let rapidBaseUrl = apiFile["rapid_api_url"];
+// let tmdbApiToken = apiFile["tmdb_api_token"];
+// let tmdbBaseUrl = apiFile["tmdb_api_url"];
 
 app.get('/', (req, res) => {
   res.send('Hey this is my API running 🥳')
 });
 
 
-app.post('/comments', (req, res) => {
-  const movieId = req.body.movieId;
-  const userID = req.body.userID;
-  const userName = req.body.userName;
-  const comment = req.body.comment;
-  if (!movieId || !userID || !userName || !comment) {
-    return res.status(400).send('Please provide a movieId, userID, userName and comment.');
+app.post('/movies/:movieId/comments', async (req, res) => {
+  try {
+    await addComment(req.params.movieId, req.body);
+    res.status(201).send('Comment added successfully');
+  } catch (error) {
+    console.log(error);
+    res.status(500).send('Failed to add comment');
   }
-  addComment(movieId, { userID, userName, comment })
-    .then(() => {
-      res.status(201).send('Comment added successfully.');
-    })
-    .catch(err => {
-      console.error(err);
-      res.status(500).send('Something went wrong.');
-    });
 });
 
-app.get('/comments', (req, res) => {
-  const movieId = req.query.movieId;
-  if (!movieId) {
-    return res.status(400).send('Please provide a movieId.');
+app.post('/movies/:movieId/comments/:commentUuid/replies', async (req, res) => {
+  try {
+    await addReply(req.params.movieId, req.params.commentUuid, req.body);
+    res.status(201).send('Reply added successfully');
+  } catch (error) {
+    res.status(500).send('Failed to add reply');
   }
-  getComments(movieId)
-    .then(comments => {
-      res.json(comments);
-    })
-    .catch(err => {
-      console.error(err);
-      res.status(500).send('Something went wrong.');
-    });
 });
 
-app.post('/rating', (req, res) => {
-  const movieId = req.body.movieId;
-  const rating = req.body.rating;
-  if (!movieId || !rating) {
-    return res.status(400).send('Please provide a movieId and rating.');
+app.get('/movies/:movieId/comments', async (req, res) => {
+  try {
+    const comments = await getCommentsForMovie(req.params.movieId);
+    res.json(comments);
+  } catch (error) {
+    console.log(error);
+    res.status(500).send('Failed to fetch comments');
   }
-  updateMovieRating(movieId, rating)
-    .then(() => {
-      res.status(201).send('Rating added successfully.');
-    })
-    .catch(err => {
-      console.error(err);
-      res.status(500).send('Something went wrong.');
-    });
-});
-
-app.get('/rating', (req, res) => {
-  const movieId = req.query.movieId;
-  if (!movieId) {
-    return res.status(400).send('Please provide a movieId.');
-  }
-  getRating(movieId)
-    .then(rating => {
-      res.json(rating);
-    })
-    .catch(err => {
-      console.error(err);
-      res.status(500).send('Something went wrong.');
-    });
 });
 
 
@@ -180,7 +151,7 @@ function isValidGenresRequest(req) {
 
 
 app.listen(PORT, () => {
-  console.log(`API listening on PORT ${PORT} `)
+  console.log(`http://localhost:${PORT} `)
 });
 // Export the Express API
 module.exports = app;

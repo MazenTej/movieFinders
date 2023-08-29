@@ -9,6 +9,8 @@ import MovieRate from "./movieRate";
 import "./details.css";
 import { useParams } from "react-router-dom";
 import VideoPopup from "./videoPopUp";
+import Loading from "../../components/Loading";
+import Videos from "./videos";
 
 type Person = {
     adult: boolean;
@@ -47,6 +49,8 @@ export const Details = () => {
     const [movieDetails, setMovieDetails] = useState<RequiredDetails>();
     const [show, setShow] = useState(false);
     const [videoId, setVideoId] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [relatedVideos, setRelatedVideos] = useState([]);
     
     React.useEffect(() => {
         if(mediaType && id){
@@ -64,6 +68,7 @@ export const Details = () => {
                 runtime : data.runtime,
                 poster_path : `https://image.tmdb.org/t/p/original/${data.poster_path}`,
             }
+            setLoading(false);
         }).catch((err) => {
             console.log(err);
         })
@@ -87,6 +92,7 @@ export const Details = () => {
 
         fetchMovieVideos(id, mediaType).then((data) => {
             setVideoId(data?.results[0]?.key);
+            setRelatedVideos(data?.results);
         }).catch((err) => {
             console.log(err);
         })
@@ -99,8 +105,9 @@ export const Details = () => {
     };
     
     return (
+
         <section className="details section">
-            {movieDetails ? (
+            {!loading ? (
         <><div className="details-container container">
                     <div className="details-left details-banner img-holder">
                         {movieDetails && movieDetails.poster_path ? (
@@ -223,7 +230,9 @@ export const Details = () => {
                         show={show}
                         setShow={setShow}
                         videoId={videoId}
-                        setVideoId={setVideoId} /></>
+                        setVideoId={setVideoId} />
+                        <Videos data={relatedVideos} loading={loading} />
+                        </>
                         ) : (
             <div className="details-skeleton">
                 <div className="details-skeleton-container container">

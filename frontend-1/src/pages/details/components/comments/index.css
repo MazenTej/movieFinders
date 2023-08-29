@@ -1,3 +1,61 @@
-.signBox .signBtn {
-    display: none;
+.parentComment {
+    margin-top: 5%;
+    margin-left: 21%;
+    margin-right: 21%;
+    border: 2px solid #AC59C2;
+    border-radius: 10px;
 }
+.replies{
+    margin-left: 25%;
+    margin-right: 25%;
+    border-left: 2px solid #AC59C2;
+}
+.CommentSubmitButton{
+    flex: 0 0 10%;  /* This means it won't grow or shrink and will take 10% width */
+    margin-left: 10px;
+    margin-top: 5%;
+}
+.CommentInputBox{
+    display: flex;
+    align-items: center;
+    margin-left: 21%;
+    margin-right: 21%;
+}
+
+.CommentInput{
+    flex-grow: 1;
+    margin-bottom: -3%;  /* This ensures that the textarea takes the remaining available space */
+}
+.parentCommentButtons {
+    display: flex;
+    align-items: center;
+}
+
+
+.replyButton {
+    flex: 0 0 10%;  /* This means it won't grow or shrink and will take 10% width */
+    margin-left: 10px;
+    margin-bottom: 10px;
+}
+.mantine-Textarea-label {
+    font-size: 1.2em;
+    font-weight: bold;
+    color: aliceblue;
+}
+
+.replyInputBox {
+    display: flex;
+    align-items: center;
+    margin-left: 5%;
+}
+
+.replyInput {
+    flex-grow: 1;
+    margin-bottom: 3%;  /* This ensures that the textarea takes the remaining available space */
+}
+
+.SubmitButton {
+    flex: 0 0 10%;  /* This means it won't grow or shrink and will take 10% width */
+    margin-left: 10px;
+}
+

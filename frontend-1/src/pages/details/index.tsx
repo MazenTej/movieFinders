@@ -7,13 +7,18 @@ import { Details } from './components/details';
 import CustomComponent from './components/comments';
 
 const Info: React.FC = () => {
-   
-    return (
-        <div className="info">
-            <Details />
-            <CustomComponent />
-        </div>
-    )
+   const {mediaType, id} = useParams();
+   if (!mediaType || !id) {
+    return null;
+} 
+    else{
+        return (
+            <div className="info">
+                <Details />
+                <CustomComponent movieID={`${mediaType}${id}`} />
+            </div>
+         );
+    }
 }
 
 export default Info;
