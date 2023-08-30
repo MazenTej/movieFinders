@@ -2,7 +2,7 @@
 const express = require('express');
 const axios = require("axios");
 const cors = require('cors');
-const { addComment, getCommentsForMovie, updateMovieRating, getRating } = require('./functions/firebase');
+const { addComment, getCommentsForMovie, addReply, getFavourites, addFavourite } = require('./functions/firebase');
 
 const app = express();
 const PORT = 4000;
@@ -18,6 +18,26 @@ app.use(express.json())
 
 app.get('/', (req, res) => {
   res.send('Hey this is my API running 🥳')
+});
+
+app.get('/favourites', async (req, res) => {
+  try {
+    const favourites = await getFavourites();
+    res.json(favourites);
+  } catch (error) {
+    console.log(error);
+    res.status(500).send('Failed to fetch favourites');
+  }
+});
+
+app.post('/favourites', async (req, res) => {
+  try {
+    await addFavourite(req.body);
+    res.status(201).send('Favourite added successfully');
+  } catch (error) {
+    console.log(error);
+    res.status(500).send('Failed to add favourite');
+  }
 });
 
 

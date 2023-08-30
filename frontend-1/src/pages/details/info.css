@@ -14,7 +14,9 @@ html, body {
   background: #000;
   overflow: hidden;
 }
-
+.info{
+  margin-top: 30%;
+}
 .video-bg::after {
   content: '';
   position: absolute;

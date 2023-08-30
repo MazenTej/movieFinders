@@ -23,6 +23,42 @@ const addComment = async (movieId, comment) => {
       }, { merge: true });
   };
 
+const addFavourite = async (favourite) => {
+    try {
+      const newFavourite = {
+        image: favourite.image,
+        title: favourite.title,
+        category: favourite.category,
+        info: favourite.info,
+        type: favourite.type,
+      };
+      const uuid = favourite.uuid;
+      const favouriteRef = db.collection('favourites').doc(uuid);
+  
+      await favouriteRef.set({
+        favourites: admin.firestore.FieldValue.arrayUnion(newFavourite)
+      }, { merge: true });
+    } catch (error) {
+      console.error("Error adding favourite: ", error);
+    }
+  };
+  
+  const getFavourites = async (uuid) => {
+    try {
+      const favouriteRef = db.collection('favourites').doc(uuid);
+      const snapshot = await favouriteRef.get();
+      if (snapshot.exists) {
+        return snapshot.data().favourites;
+      } else {
+        return null; // or empty array, depending on how you want to handle it
+      }
+    } catch (error) {
+      console.error("Error getting favourites: ", error);
+    }
+  };
+  
+
+
   const addReply = async (movieId, commentUuid, reply) => {
     // Define the reply structure
     const newReply = {
@@ -68,13 +104,16 @@ const getCommentsForMovie = async (movieId) => {
     const napshot = await movieRef.get();
     return napshot.data().comments;
   };
-  
+
+
 
   
 
 module.exports = {
     addComment,
     addReply,
-    getCommentsForMovie
-};
+    getCommentsForMovie,
+    addFavourite,
+    getFavourites
+}
 // Path: functions\index.js

@@ -28,7 +28,7 @@ function App() {
   }, [currentUser])
     
   return (
-    
+    <MantineProvider withNormalizeCSS>
     <Routes>
       <Route index element={<HomePage />} />
       <Route path="/:mediaType/:id" element={<Info />} />
@@ -42,6 +42,7 @@ function App() {
         </RequireAuth>}
       />
     </Routes>
+    </MantineProvider>
   )
 }
 
