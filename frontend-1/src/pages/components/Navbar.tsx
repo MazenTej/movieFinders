@@ -142,7 +142,9 @@ export function Navbar({ user,setSelectedGenre,selectedGenre }: NavBarProps) {
     { value: 'drama', label: 'Drama' },
     { value: 'comedy', label: 'Comedy' },
     {value: 'documentary',label:'Documentary'},
-    {value: 'horror',label:"Horror"}
+    {value: 'horror',label:"Horror"},
+    {value: 'crime',label: "Crime"},
+    {value: 'thriller',label: "Thriller"}
     // Add more genres as needed
   ];
 

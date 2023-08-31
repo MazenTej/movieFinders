@@ -37,7 +37,7 @@ function transformMoviesArray(moviesArray: any[]): Record<string, Movie[]> {
             title: movieTitle,
             category: movie.genres?.[0]?.name || "Unknown",
             info: movie.type === 'series' ? `${movie.firstAirYear} - ${movie.lastAirYear}` : `${movie.year}`,
-            image: movie.image,
+            image: `${keys.tmdb_api_url}movie/${movie.tmdbId}/images?api_key=${keys.tmdb_api_token}` ,
             type: movie.type
           };
 
@@ -49,6 +49,12 @@ function transformMoviesArray(moviesArray: any[]): Record<string, Movie[]> {
   });
 
   return transformedData;
+}
+
+const keys= {
+  "tmdb_api_token": "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI3NzUzNjA3NjQ2YzkxMzRlZWJhYzc3MTEzOTI0NTQwZSIsInN1YiI6IjY0ZDk3ZGIwYjZjMjY0MTE1NjljZDdhNSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.UCeJlzmYtOyStRjznPJ4llU6XQMOTAgsusy_WjkItrA",
+
+  "tmdb_api_url": "https://api.themoviedb.org/3/"
 }
 
 
@@ -70,25 +76,27 @@ function Home() {
 
 
 
-// useEffect(()=>{
+useEffect(()=>{
   
 
 
-//   fetch(`http://localhost:4000/moviesByServices/${servList}`)
-//   .then((response)=> response.json())
-//   .then((data)=> {
-//     const movies=transformMoviesArray(data)
-//     setShowsByService(movies)
+  fetch(`http://localhost:4000/moviesByServices/${servList}`)
+  .then((response)=> response.json())
+  .then((data)=> {
+    const movies=transformMoviesArray(data)
+    setShowsByService(movies)
     
-//   })
-// },[])
+  })
+},[])
 
 
-useEffect(()=> {
-  const movies=transformMoviesArray(mov)
-  setShowsByService(movies)
-},[showsByService])
 // useEffect(()=> {
+//   const movies=transformMoviesArray(mov)
+//   setShowsByService(movies)
+//   console.log(showsByService)
+//   console.log(mov)
+// },[showsByService])
+// // useEffect(()=> {
 //   fetch(`http://localhost:4000/moviesByServices/${servList}`)
 //   .then((response)=> response.json())
 //   .then((moviesData)=> {
