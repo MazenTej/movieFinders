@@ -1,65 +1,77 @@
 // index.js
 const express = require("express");
 const axios = require("axios");
-const cors = require("cors");
-const {
-  addComment,
-  getComments,
-  updateMovieRating,
-  getRating,
-} = require("./functions/firebase");
+const cors = require('cors');
+const { addComment, getCommentsForMovie, addReply, getFavourites, addFavourite } = require('./functions/firebase');
 
 const app = express();
 const PORT = 4000;
 
-let apiFile = require("./env.json");
-let rapidApiKey = apiFile["rapid_api_key"];
-let rapidBaseUrl = apiFile["rapid_api_url"];
-let tmdbApiToken = apiFile["tmdb_api_token"];
-let tmdbBaseUrl = apiFile["tmdb_api_url"];
+// let apiFile = require("./env.json");
+// let rapidApiKey = apiFile["rapid_api_key"];
+// let rapidBaseUrl = apiFile["rapid_api_url"];
+// let tmdbApiToken = apiFile["tmdb_api_token"];
+// let tmdbBaseUrl = apiFile["tmdb_api_url"];
 
 app.use(cors());
+app.use(express.json())
 
-app.get("/", (req, res) => {
-  res.send("Hey this is my API running 🥳");
+app.get('/', (req, res) => {
+  res.send('Hey this is my API running 🥳')
 });
 
-app.post("/comments", (req, res) => {
-  const movieId = req.body.movieId;
-  const userID = req.body.userID;
-  const userName = req.body.userName;
-  const comment = req.body.comment;
-  if (!movieId || !userID || !userName || !comment) {
-    return res
-      .status(400)
-      .send("Please provide a movieId, userID, userName and comment.");
+app.get('/favourites', async (req, res) => {
+  try {
+    const favourites = await getFavourites();
+    res.json(favourites);
+  } catch (error) {
+    console.log(error);
+    res.status(500).send('Failed to fetch favourites');
   }
-  addComment(movieId, { userID, userName, comment })
-    .then(() => {
-      res.status(201).send("Comment added successfully.");
-    })
-    .catch((err) => {
-      console.error(err);
-      res.status(500).send("Something went wrong.");
-    });
 });
 
-app.get("/comments", (req, res) => {
-  const movieId = req.query.movieId;
-  if (!movieId) {
-    return res.status(400).send("Please provide a movieId.");
+app.post('/favourites', async (req, res) => {
+  try {
+    await addFavourite(req.body);
+    res.status(201).send('Favourite added successfully');
+  } catch (error) {
+    console.log(error);
+    res.status(500).send('Failed to add favourite');
   }
-  getComments(movieId)
-    .then((comments) => {
-      res.json(comments);
-    })
-    .catch((err) => {
-      console.error(err);
-      res.status(500).send("Something went wrong.");
-    });
 });
 
-app.post("/rating", (req, res) => {
+
+app.post('/movies/:movieId/comments', async (req, res) => {
+  try {
+    await addComment(req.params.movieId, req.body);
+    res.status(201).send('Comment added successfully');
+  } catch (error) {
+    console.log(error);
+    res.status(500).send('Failed to add comment');
+  }
+});
+
+app.post('/movies/:movieId/comments/:commentUuid/replies', async (req, res) => {
+  try {
+    await addReply(req.params.movieId, req.params.commentUuid, req.body);
+    res.status(201).send('Reply added successfully');
+  } catch (error) {
+    res.status(500).send('Failed to add reply');
+  }
+});
+
+app.get('/movies/:movieId/comments', async (req, res) => {
+  try {
+    const comments = await getCommentsForMovie(req.params.movieId);
+    res.json(comments);
+  } catch (error) {
+    console.log(error);
+    res.status(500).send('Failed to fetch comments');
+  }
+});
+
+
+app.post('/rating', (req, res) => {
   const movieId = req.body.movieId;
   const rating = req.body.rating;
   if (!movieId || !rating) {

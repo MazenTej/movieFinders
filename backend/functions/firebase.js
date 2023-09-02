@@ -1,81 +1,119 @@
-const { initializeApp, applicationDefault, cert } = require('firebase-admin/app');
-const { getFirestore, Timestamp, FieldValue, Filter } = require('firebase-admin/firestore');
+const admin = require('firebase-admin');
 
 const serviceAccount = require('../serviceKey.json');
 
-initializeApp({
-  credential: cert(serviceAccount)
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount)
 });
 
-const db = getFirestore();
+const db = admin.firestore();
 
-function addComment(movieId, comment) {
-  const commentRef = db.collection('movies').doc(movieId).collection('comments');
-  return commentRef.add(comment);
-}
-
-function getComments(movieId) {
-    const commentRef = db.collection('movies').doc(movieId).collection('comments');
-    return commentRef.get()
-        .then(snapshot => {
-            const comments = [];
-            snapshot.forEach(doc => {
-                comments.push(doc.data());
-            });
-            return comments;
-        })
-        .catch(err => {
-            console.error('Error getting documents', err);
-            throw err;
-        });
-}
-
-async function updateMovieRating(movieId, rating) {
-    const movieRef = db.collection('movies').doc(movieId);
-    
-    try {
-        await db.runTransaction(async (transaction) => {
-            const movieDoc = await transaction.get(movieRef);
-
-            if (!movieDoc.exists) {
-                transaction.set(movieRef, {
-                    averageRating: rating,
-                    numberOfRatings: 1
-                });
-            } else {
-                const movieData = movieDoc.data();
-                const currentAverageRating = movieData.averageRating || 0;
-                const numberOfRatings = movieData.numberOfRatings || 0;
-                const newAverageRating = ((currentAverageRating * numberOfRatings) + rating) / (numberOfRatings + 1);
-                transaction.update(movieRef, {
-                    averageRating: newAverageRating,
-                    numberOfRatings: numberOfRatings + 1
-                });
-            }
-        });
-    } catch (err) {
-        console.error('Error updating or creating movie', err);
-        throw err;
-    }
-}
-
-async function getRating(movieId) {
-    const movieRef = db.collection('movies').doc(movieId);
-    const movieDoc = await movieRef.get();
-    if (!movieDoc.exists) {
-        return null;
-    }
-    const movieData = movieDoc.data();
-    return {
-        averageRating: movieData.averageRating || 0,
-        numberOfRatings: movieData.numberOfRatings || 0
+const addComment = async (movieId, comment) => {
+    const newComment = {
+    author: comment.author,
+    body: comment.body,
+    postedAt: comment.postedAt,
+    replies: [],
+    uuid: admin.firestore().collection('random').doc().id // Generate a random ID
     };
-}
+  
+    const movieRef = db.collection('movies').doc(movieId);
+    await movieRef.set({
+        comments: admin.firestore.FieldValue.arrayUnion(newComment)
+      }, { merge: true });
+  };
+
+const addFavourite = async (favourite) => {
+    try {
+      const newFavourite = {
+        image: favourite.image,
+        title: favourite.title,
+        category: favourite.category,
+        info: favourite.info,
+        type: favourite.type,
+      };
+      const uuid = favourite.uuid;
+      const favouriteRef = db.collection('favourites').doc(uuid);
+  
+      await favouriteRef.set({
+        favourites: admin.firestore.FieldValue.arrayUnion(newFavourite)
+      }, { merge: true });
+    } catch (error) {
+      console.error("Error adding favourite: ", error);
+    }
+  };
+  
+  const getFavourites = async (uuid) => {
+    try {
+      const favouriteRef = db.collection('favourites').doc(uuid);
+      const snapshot = await favouriteRef.get();
+      if (snapshot.exists) {
+        return snapshot.data().favourites;
+      } else {
+        return null; // or empty array, depending on how you want to handle it
+      }
+    } catch (error) {
+      console.error("Error getting favourites: ", error);
+    }
+  };
+  
+
+
+  const addReply = async (movieId, commentUuid, reply) => {
+    // Define the reply structure
+    const newReply = {
+        author: reply.author,
+        body: reply.body,
+        postedAt: reply.postedAt,
+    };
+  
+    const movieRef = db.collection('movies').doc(movieId);
+    const movieSnapshot = await movieRef.get();
+
+    if (!movieSnapshot.exists) {
+        console.error('Movie not found');
+        return;
+    }
+
+    const movieData = movieSnapshot.data();
+    if (!movieData || !movieData.comments) {
+        console.error('No comments found on movie');
+        return;
+    }
+
+    // Find the comment using the UUID and append the reply
+    const updatedComments = movieData.comments.map((comment) => {
+        if (comment.uuid === commentUuid) {
+            return {
+                ...comment,
+                replies: [...(comment.replies || []), newReply]
+            };
+        }
+        return comment;
+    });
+
+    // Update the movie with the appended reply
+    await movieRef.update({
+        comments: updatedComments
+    });
+};
+
+
+const getCommentsForMovie = async (movieId) => {
+    const movieRef = db.collection('movies').doc(movieId);
+    const napshot = await movieRef.get();
+    return napshot.data().comments;
+  };
+
+
+
+  
 
 module.exports = {
     addComment,
-    getComments,
-    updateMovieRating,
-    getRating
-};
+    addReply,
+    getCommentsForMovie,
+    addFavourite,
+    getFavourites
+}
 // Path: functions\index.js
