@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Card, Container, Grid, Text, Title } from '@mantine/core';
 import { Navbar } from '../components/Navbar';
 import { CardsCarousel } from '../components/CardCarousel';
-import { dummyService, mov, servList } from './dummydata';
+import { dummyService, mov, servList } from '../../dummydata';
 import { useLocation } from 'react-router-dom';
 
 interface Movie {
@@ -105,18 +105,18 @@ useEffect(()=>{
 //     console.log("after",movies)
 //   })
 // },[])
-const filteredMovies: Record<string, Movie[]> = Object.keys(showsByService).reduce(
-  (filteredData, serviceName) => {
-    const filteredServiceMovies = showsByService[serviceName].filter(
-      (movie) => selectedGenre === "all" || movie.category.toLowerCase() === selectedGenre.toLowerCase()
-    );
-    if (filteredServiceMovies.length > 0) {
-      filteredData[serviceName] = filteredServiceMovies;
-    }
-    return filteredData;
-  },
-  {} as Record<string, Movie[]> // Initialize with empty object
-);
+  const filteredMovies: Record<string, Movie[]> = Object.keys(showsByService).reduce(
+    (filteredData, serviceName) => {
+      const filteredServiceMovies = showsByService[serviceName].filter(
+        (movie) => selectedGenre === "all" || movie.category.toLowerCase() === selectedGenre.toLowerCase()
+      );
+      if (filteredServiceMovies.length > 0) {
+        filteredData[serviceName] = filteredServiceMovies;
+      }
+      return filteredData;
+    },
+    {} as Record<string, Movie[]> // Initialize with empty object
+  );
 
 
 
