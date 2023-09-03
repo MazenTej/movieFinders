@@ -22,18 +22,10 @@ const Info: React.FC = () => {
    
    
    useEffect(() => {
-    // const fetchData = async () => {
-    // if(mediaType || id || currentUser) {
-    //     //@ts-ignore
-    //         const rating = await getUserRating(currentUser.uid, mediaType, id);
-    // }
-    // }
     if (currentUser?.uid && mediaType) {
         setUserUuid(currentUser.uid);
     }
     console.log(currentUser?.uid)
-    // fetchData();
-
     }, [currentUser])
     
 

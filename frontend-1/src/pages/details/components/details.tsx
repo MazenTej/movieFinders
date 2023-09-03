@@ -10,6 +10,7 @@ import MovieRate from "./movieRate";
 import "./details.css";
 import { useParams } from "react-router-dom";
 import VideoPopup from "./videoPopUp";
+import AvailableServices from "./services"
 // import Videos from "./videos";
 
 type Person = {
@@ -131,8 +132,6 @@ export const Details = () => {
                                 className="playbtn"
                                 onClick={() => {
                                     setShow(true);
-                                    // eslint-disable-next-line react/prop-types
-                                    //setVideoId(video.key)
                                 } }
                             >
                                 <PlayIcon />
@@ -222,7 +221,9 @@ export const Details = () => {
                                 </span>
                             </div>
                         )}
-
+                        {
+                            mediaType && id && <AvailableServices mediaType={mediaType} id={id} />
+                        }
                     </div>
 
 
