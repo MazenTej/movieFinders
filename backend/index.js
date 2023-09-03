@@ -2,7 +2,7 @@
 const express = require('express');
 const axios = require("axios");
 const cors = require('cors');
-const { addComment, getCommentsForMovie, addReply, getFavourites, addFavourite } = require('./functions/firebase');
+const { addComment, getCommentsForMovie, addReply, getFavourites, addFavourite, addRating, getUserRating, updateAverageRating } = require('./functions/firebase');
 
 const app = express();
 const PORT = 4000;
@@ -20,9 +20,33 @@ app.get('/', (req, res) => {
   res.send('Hey this is my API running 🥳')
 });
 
+app.post('/rating', async (req, res) => {
+  const { uuid, mediatype, tmdb_id, score } = req.body;
+  try {
+    await addRating(uuid, mediatype, tmdb_id, score);
+    res.status(200).send("Rating added successfully.");
+  } catch (error) {
+    res.status(500).send(`Error: ${error}`);
+  }
+});
+
+// Get user rating
+app.get('/rating/:uuid/:mediatype/:tmdb_id', async (req, res) => {
+  const { uuid, mediatype, tmdb_id } = req.params;
+  try {
+    const score = await getUserRating(uuid, mediatype, tmdb_id);
+    res.status(200).json({ score });
+  } catch (error) {
+    res.status(500).send(`Error: ${error}`);
+  }
+});
+
+
+
 app.get('/favourites', async (req, res) => {
   try {
-    const favourites = await getFavourites();
+    const uuid = req.query.uuid;
+    const favourites = await getFavourites(uuid);
     res.json(favourites);
   } catch (error) {
     console.log(error);
