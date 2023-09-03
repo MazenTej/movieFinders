@@ -43,6 +43,7 @@ const addFavourite = async (favourite) => {
     }
   };
   
+  
   const getFavourites = async (uuid) => {
     try {
       const favouriteRef = db.collection('favourites').doc(uuid);

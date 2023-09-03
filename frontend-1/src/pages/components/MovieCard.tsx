@@ -52,13 +52,19 @@ interface MovieCardProps {
   image: string;
   title: string;
   category: string;
+  mediaType: string;
+  id: string;
 }
 
-function MovieCard({ image, title, category }: MovieCardProps) {
+function MovieCard({ image, title, category, mediaType, id }: MovieCardProps) {
   const { classes } = useStyles();
+  const redirect = () => {
+    return window.location.href = `/${mediaType}/${id}}`
+  };
+
 
   return (
-    <div className={classes.card}>
+    <div className={classes.card} onClick={redirect}>
       <div
         className={classes.image}
         style={{ backgroundImage: `url(${image})` }}

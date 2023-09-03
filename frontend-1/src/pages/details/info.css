@@ -15,7 +15,7 @@
   overflow: hidden;
 }
 .info{
-  margin-top: -90%;
+  margin-top: -120%;
 }
 .video-bg::after {
   content: '';

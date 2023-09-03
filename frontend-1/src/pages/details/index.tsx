@@ -11,6 +11,7 @@ import { Modal } from 'react-responsive-modal';
 import { Rating } from '@mantine/core';
 import { AuthContext } from '../../context/AuthContext';
 import { addRating, getUserRating } from './ratingHandlers'
+import Similar from './components/similar';
 
 
 const Info: React.FC = () => {
@@ -47,6 +48,7 @@ const Info: React.FC = () => {
            <Container size={1200} style={{ marginTop: '120%' }}> 
                 <div className="info">
                 <Details />
+                
                 {userUuid
                 ? <Rating style={
                     {
@@ -57,10 +59,11 @@ const Info: React.FC = () => {
                     addRating(userUuid, mediaType, id, value);
                 }} />
                 : 
-                <div> login to continru</div>
+                <div> login to continue</div>
                 }
                 
                 <CommentSystem movieID={`${mediaType}${id}`} />
+                <Similar mediaType={mediaType} id={id} />
             </div>
              </Container> 
         </div>

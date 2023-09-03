@@ -8,6 +8,8 @@ interface Movie {
   title: string;
   category: string;
   info: string;
+  mediaType: string;
+  id: string;
 }
 interface MovieService {
   [serviceName: string]: Movie[];
@@ -18,7 +20,9 @@ function mapDataToMovie(data: any): Movie[] {
     title: item.title,
     category: item.genres[0]?.name || "Unknown", // Using the first genre as category
     info: item.type === 'series' ? `${item.firstAirYear} - ${item.lastAirYear}` : `${item.year}`, // Displaying years
-    image: `https://image.tmdb.org/t/p/w500${item.tmdbId}.jpg`, // Assuming you can get images via TMDB with tmdbId (you might need to adjust this)
+    image: `https://image.tmdb.org/t/p/w500${item.tmdbId}.jpg`,
+    mediaType: item.type,
+    id: item.id,
   }));
 }
 
@@ -42,6 +46,8 @@ function transformMoviesArray(moviesArray: any[]): Record<string, Movie[]> {
             category: movie.genres?.[0]?.name || "Unknown",
             info: movie.type === 'series' ? `${movie.firstAirYear} - ${movie.lastAirYear}` : `${movie.year}`,
             image: movie.image,
+            mediaType: movie.type,
+            id: movie.id,
           };
 
           transformedData[serviceName].push(transformedMovie);
@@ -67,67 +73,9 @@ function Home() {
   const [showsByService, setShowsByService] = useState<MovieService>({});
   const [error, setError] = useState("");
 
-  
-
-
-
-// useEffect(()=>{
-  
-
-
-//   fetch(`http://localhost:4000/moviesByServices/${servList}`)
-//   .then((response)=> response.json())
-//   .then((data)=> {
-//     const movies=transformMoviesArray(data)
-//     setShowsByService(movies)
-    
-//   })
-// },[])
-
-
 useEffect(()=> {
   console.log("shows",showsByService)
 },[showsByService])
-// useEffect(()=> {
-//   fetch(`http://localhost:4000/moviesByServices/${servList}`)
-//   .then((response)=> response.json())
-//   .then((moviesData)=> {
-//     const movies = mapDataToMovie(moviesData);
-//     console.log("before",moviesData)
-//     console.log("after",movies)
-//   })
-// },[])
-
-
-
-  // useEffect(() => {
-  //   Object.keys(services).forEach((serviceName) => {
-  //     fetch(`http://localhost:4000/moviesByServices/${serviceName}`)
-  //       .then((response) => response.json())
-  //       .then((moviesData) => {
-  //         const movies = mapDataToMovie(moviesData);
-  //         setShowsByService(prevState => ({
-  //           ...prevState,
-  //           [serviceName]: movies
-  //         }));
-  //       })
-  //       .catch((err) => setError(err.message));
-  //   });
-  // }, [services]);
-
-  // useEffect(() => {
-  //   fetch(`http://localhost:4000/services`)
-  //     .then((response) => response.json())
-  //     .then((data) => {
-  //       setServices(data);
-  //     })
-  //     .catch((err) => setError(err.message));
-  // }, []);
-
-  // useEffect(()=> {
-  //   const movies=transformMoviesArray(mov)
-  //   setShowsByService(movies)
-  // },[showsByService])
   return (
     <div style={{ display: 'flex', flexDirection: 'column' }}>
       <Navbar user="Mazen Tej" />
