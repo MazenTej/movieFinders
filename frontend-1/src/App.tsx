@@ -1,7 +1,7 @@
 // deno-lint-ignore-file
 import { useContext, useEffect } from 'react'
 import { Routes , Route, useNavigate } from 'react-router-dom'
-import { MantineProvider, Text, MantineTheme  } from '@mantine/core';
+import { MantineProvider, Text, MantineTheme, AppShell, Header  } from '@mantine/core';
 
 import { AuthContext } from './context/AuthContext'
 import RequireAuth from './components/RequireAuth'
@@ -14,6 +14,7 @@ import AuthenticationForm from "./pages/auth/Login"
 import LoginPortal from "./pages/auth/index"
 import Info from './pages/details';
 import { Navbar } from './pages/components/Navbar';
+import { SearchContent } from './pages/search';
 
 
 
@@ -33,12 +34,16 @@ function App() {
     
   return (
     <MantineProvider withNormalizeCSS>
-         <Navbar user={userName} searchValue={searchValue} onChange={onChange} />
-    {
-      searchValue!=='' && <div> searching</div>
-    }
+      <AppShell
+                padding="md"
+                header={<Navbar user={userName} searchValue={searchValue} onChange={onChange} />}
+                >
+         
+         {
+            searchValue !== '' && <SearchContent searchValue={searchValue} />
+          }
     <Routes>
-      <Route index element={<HomePage1 />} />
+      <Route index element={<HomePage1 searchValue={searchValue}/>} />
       <Route path="/:mediaType/:id" element={<Info />} />
       <Route path="login" element={<LoginPortal text='Login to continue'>
         <AuthenticationForm />
@@ -52,6 +57,7 @@ function App() {
       <Route path="favorites" element={
         <Favorites/>}/>
     </Routes>
+    </AppShell>
     </MantineProvider>
   )
 }

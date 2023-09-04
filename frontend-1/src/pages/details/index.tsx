@@ -36,7 +36,7 @@ const Info: React.FC = () => {
         return (
         <>
         <div style={{ display: 'flex', flexDirection: 'column' }}>
-           <Container size={1200} style={{ marginTop: '120%' }}> 
+           <Container size={1200} style={{ marginTop: '5%' }}> 
                 <div className="info">
                 <Details />
                 

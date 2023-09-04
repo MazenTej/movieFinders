@@ -1,0 +1,11 @@
+.search-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow: visible;  /* To make sure that overflowing content is not clipped */
+    margin: 0;  /* Resetting margin */
+    padding: 0;  /* Resetting padding */
+    margin-top: 400px;
+}
+

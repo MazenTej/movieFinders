@@ -2,8 +2,9 @@ import React from "react"
 import { fetchDataFromApi } from "../../api"
 import { CardsCarousel } from "../components/CardCarousel";
 import { Navbar } from "../components/Navbar";
-import { Container } from "@mantine/core";
+import { AppShell, Container } from "@mantine/core";
 import './index.css'
+import { SearchContent } from "../search";
 interface Movie {
     image: string;
     title: string;
@@ -61,19 +62,53 @@ async function getDiscover() {
     }
 }
 
+async function getTrending() {
+    const movieResponse = await fetchDataFromApi('/trending/movie/day?language=en-US')
+    const tvResponse = await fetchDataFromApi('/trending/tv/day?language=en-US')
 
-export function HomePage1() {
+    const movies = movieResponse.results.map((movie: any) => {
+        return {
+            image: `https://image.tmdb.org/t/p/original${movie.poster_path}`,
+            title: movie.title,
+            category: "Movie",
+            mediaType: "movie",
+            id: movie.id
+        }
+    }
+    )
+    const tvs = tvResponse.results.map((tv: any) => {
+        return {
+            image: `https://image.tmdb.org/t/p/original${tv.poster_path}`,
+            title: tv.name,
+            category: "TV",
+            mediaType: "tv",
+            id: tv.id
+        }
+    }
+    )
+    return {
+        movies: [...movies, ...tvs]
+    }
+}
+
+interface HomePageProps {
+    searchValue: string;
+}
+export function HomePage1( {searchValue}: HomePageProps) {
     const [topRated, setTopRated] = React.useState<CardsCarouselProps>()
     const [discover, setDiscover] = React.useState<Movie>()
+    const [trending, setTrending] = React.useState<CardsCarouselProps>()
     React.useEffect(() => {
         getTopRated().then((topRated) => {
             setTopRated(topRated)
-            console.log(topRated)
         })
         getDiscover().then((discover) => {
-            console.log(discover)
             setDiscover(discover)
         })
+        getTrending().then((trending) => {
+            setTrending(trending)
+        }
+        )
     }, [])
 
     //update discover every 5 seconds
@@ -88,7 +123,10 @@ export function HomePage1() {
     }, [])
 
     return (
-            <><div style={{ display: 'flex', flexDirection: 'column' }}>
+            <>
+             
+             <Container size={1200} style={{ marginTop: '5%' }}> 
+           
             <div className="discover">
                 <div className="discoverInfo">
                     <h1 className="discoverTitle">
@@ -111,15 +149,24 @@ export function HomePage1() {
                 <img src={discover?.image} alt="discover"/>
                 <div className="overlay"></div>
                 </div>
-                discover
             </div>
-
             <div >
-                <h1 style={{color: "white", marginBottom: '20px'}}>Top Rated</h1>
+                <h1 style={{color: "white", paddingBottom: '20px'}}>trending</h1>
             </div>
-            <Container size={1200} >
+            <Container size={1200} style={{
+                marginBottom: '20px'
+            }}>
+                {trending ? <CardsCarousel movies={trending.movies} /> : null}
+            </Container>
+            <div >
+                <h1 style={{color: "white", paddingBottom: '20px'}}>Top Rated</h1>
+            </div>
+            <Container size={1200} style={{
+                paddingBottom: '70px'
+            }}>
                 {topRated ? <CardsCarousel movies={topRated.movies} /> : null}
             </Container>
-        </div></>
+        </Container>
+        </>
     )
 }

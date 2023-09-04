@@ -15,7 +15,7 @@
   overflow: hidden;
 }
 .info{
-  margin-top: -120%;
+  padding-top: -1300px;
 }
 .video-bg::after {
   content: '';
