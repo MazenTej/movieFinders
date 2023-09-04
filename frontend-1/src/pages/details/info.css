@@ -1,12 +1,12 @@
-html, body {
+ html, body {
   margin: 0;
   padding: 0;
-}
+} 
 
 .wrap {
   position: relative;
   height: 100vh;
-}
+} 
 
 .video-bg {
   position: relative;
@@ -15,7 +15,7 @@ html, body {
   overflow: hidden;
 }
 .info{
-  margin-top: 30%;
+  margin-top: -120%;
 }
 .video-bg::after {
   content: '';
@@ -59,4 +59,4 @@ html, body {
 .title {
   text-align: center;
   font-size: 2.5vw;
-}
+} 

@@ -43,6 +43,7 @@ const addFavourite = async (favourite) => {
     }
   };
   
+  
   const getFavourites = async (uuid) => {
     try {
       const favouriteRef = db.collection('favourites').doc(uuid);
@@ -104,9 +105,74 @@ const getCommentsForMovie = async (movieId) => {
     const napshot = await movieRef.get();
     return napshot.data().comments;
   };
+  const updateAverageRating = async (movieId) => {
+    try {
+      const ratingsRef = db.collection('movies-ratings').doc(movieId).collection('ratings');
+      const snapshot = await ratingsRef.get();
+      
+      let totalScore = 0;
+      let count = 0;
+  
+      snapshot.forEach(doc => {
+        totalScore += doc.data().score;
+        count++;
+      });
+  
+      const average = totalScore / count;
+  
+      const movieRef = db.collection('movies-ratings').doc(movieId);
+      await movieRef.update({
+        averageRating: average,
+        ratingCount: count,
+      });
+  
+    } catch (error) {
+      console.error("Error updating average rating:", error);
+      // Handle the error appropriately
+    }
+  };
+  
+  const addRating = async (uuid, mediatype, tmdb_id, score) => {
+    try {
+      // Validate score (should be between 1 and 10)
+      if (score < 1 || score > 10) {
+        return "Invalid score";
+      }
+  
+      const movieId = `${mediatype}_${tmdb_id}`;
+      const ratingRef = db.collection('movies-ratings').doc(movieId).collection('ratings').doc(uuid);
+      
+      await ratingRef.set({
+        score: score,
+      });
+  
+      // Optionally: Update average rating (could also be done with a cloud function)
+      updateAverageRating(movieId);
+  
+    } catch (error) {
+      console.error("Error adding rating:", error);
+      // Handle the error appropriately
+    }
+  };
+  
 
-
-
+  const getUserRating = async (uuid, mediatype, tmdb_id) => {
+    try {
+      const movieId = `${mediatype}_${tmdb_id}`;
+      const ratingRef = db.collection('movies-ratings').doc(movieId).collection('ratings').doc(uuid);
+      const snapshot = await ratingRef.get();
+  
+      if (snapshot.exists) {
+        return snapshot.data().score;
+      } else {
+        return null;
+      }
+  
+    } catch (error) {
+      console.error("Error fetching user rating:", error);
+      // Handle the error appropriately
+    }
+  };
   
 
 module.exports = {
@@ -114,6 +180,9 @@ module.exports = {
     addReply,
     getCommentsForMovie,
     addFavourite,
-    getFavourites
+    getFavourites,
+    addRating,
+    getUserRating,
+    updateAverageRating
 }
 // Path: functions\index.js

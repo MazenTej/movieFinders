@@ -8,7 +8,8 @@ interface Movie {
   title: string;
   category: string;
   info: string;
-  type: string;
+  mediaType: string;
+  id: string;
 }
 
 interface CardsCarouselProps {

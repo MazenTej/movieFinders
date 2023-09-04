@@ -37,7 +37,7 @@ export function TextInput({ reply, setReply, updateReply }: TextInputProps) {
   )
 }
  
-const CustomComponent: React.FC<CustomComponentProps> = ({ movieID }) => {
+const CommentSystem: React.FC<CustomComponentProps> = ({ movieID }) => {
   const { currentUser, signOut } = useContext(AuthContext)
   const [comments, setComments] = useState<Comments[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -122,4 +122,4 @@ const CustomComponent: React.FC<CustomComponentProps> = ({ movieID }) => {
 }
 
 
-export default CustomComponent
+export default CommentSystem

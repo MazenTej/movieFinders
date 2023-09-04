@@ -65,7 +65,7 @@ function capitalize(str: string) {
   return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
 }
 
-function Home() {
+export function Home() {
   const [services, setServices] = useState<Record<string, any>>({});
   const [showsByService, setShowsByService] = useState<MovieService>({});
   const [selectedGenre, setSelectedGenre] = useState<string>("all");
@@ -174,5 +174,3 @@ useEffect(()=>{
     </div>
   );
 }
-
-export default Home;

@@ -9,7 +9,7 @@ import Home from './routes/Home'
 import Profile from './routes/profile'
 import Favorites from './pages/favorites/favorites'
 import React from 'react'
-import HomePage from "./pages/Home/Home"
+import { HomePage1 } from "./pages/Home/index"
 import AuthenticationForm from "./pages/auth/Login" 
 import LoginPortal from "./pages/auth/index"
 import Info from './pages/details';
@@ -31,7 +31,7 @@ function App() {
   return (
     <MantineProvider withNormalizeCSS>
     <Routes>
-      <Route index element={<HomePage />} />
+      <Route index element={<HomePage1 />} />
       <Route path="/:mediaType/:id" element={<Info />} />
       <Route path="login" element={<LoginPortal text='Login to continue'>
         <AuthenticationForm />

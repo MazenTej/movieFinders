@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { fetchMovieDetails, fetchMovieCredits, fetchMovieVideos } from './fetchMovieDetails'
 import Img from "./Img";
+import { Rating } from '@mantine/core';
 
 import PosterFallback from "../../../assets/no-poster.png";
 import dayjs from "dayjs";
@@ -9,7 +10,8 @@ import MovieRate from "./movieRate";
 import "./details.css";
 import { useParams } from "react-router-dom";
 import VideoPopup from "./videoPopUp";
-import Videos from "./videos";
+import AvailableServices from "./services"
+// import Videos from "./videos";
 
 type Person = {
     adult: boolean;
@@ -67,7 +69,7 @@ export const Details = () => {
                 runtime : data.runtime,
                 poster_path : `https://image.tmdb.org/t/p/original/${data.poster_path}`,
             }
-            setLoading(false);
+            setMovieDetails(obj);
         }).catch((err) => {
             console.log(err);
         })
@@ -85,6 +87,7 @@ export const Details = () => {
             }
             console.log(data);
             setMovieDetails(obj);
+            setLoading(false);
         }).catch((err) => {
             console.log(err);
         })
@@ -104,7 +107,6 @@ export const Details = () => {
     };
     
     return (
-
         <section className="details section">
             {!loading ? (
         <><div className="details-container container">
@@ -130,8 +132,6 @@ export const Details = () => {
                                 className="playbtn"
                                 onClick={() => {
                                     setShow(true);
-                                    // eslint-disable-next-line react/prop-types
-                                    //setVideoId(video.key)
                                 } }
                             >
                                 <PlayIcon />
@@ -221,7 +221,9 @@ export const Details = () => {
                                 </span>
                             </div>
                         )}
-
+                        {
+                            mediaType && id && <AvailableServices mediaType={mediaType} id={id} />
+                        }
                     </div>
 
 
@@ -230,7 +232,7 @@ export const Details = () => {
                         setShow={setShow}
                         videoId={videoId}
                         setVideoId={setVideoId} />
-                        <Videos data={relatedVideos} loading={loading} />
+                        {/* <Videos data={relatedVideos} loading={loading} /> */}
                         </>
                         ) : (
             <div className="details-skeleton">
