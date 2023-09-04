@@ -1,0 +1,14 @@
+body {
+    background-color: grey;
+}
+
+.favorites-h1 {
+    color: rgba(0, 0, 0, 0.836);
+    position: relative;
+    display: block;
+    text-align: center;
+}
+
+.card {
+    display: inline;
+}

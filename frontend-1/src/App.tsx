@@ -7,6 +7,7 @@ import { AuthContext } from './context/AuthContext'
 import RequireAuth from './components/RequireAuth'
 import Home from './routes/Home'
 import Profile from './routes/profile'
+import Favorites from './pages/favorites/favorites'
 import React from 'react'
 import { HomePage1 } from "./pages/Home/index"
 import AuthenticationForm from "./pages/auth/Login" 
@@ -22,9 +23,9 @@ function App() {
 
   // Check if currentUser exists on initial render
   useEffect(() => {
-    // if (currentUser) {
-    //   navigate('/')
-    // }
+    if (currentUser) {
+      navigate('/', {state: {userName: currentUser.email?.substring(0, currentUser.email.indexOf("@"))}})
+    }
   }, [currentUser])
     
   return (
@@ -41,6 +42,8 @@ function App() {
           <Profile/>
         </RequireAuth>}
       />
+      <Route path="favorites" element={
+        <Favorites/>}/>
     </Routes>
     </MantineProvider>
   )
