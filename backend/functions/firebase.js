@@ -29,7 +29,6 @@ const addFavourite = async (favourite) => {
         image: favourite.image,
         title: favourite.title,
         category: favourite.category,
-        info: favourite.info,
         mediaType: favourite.type,
         id : favourite.id,
       };
