@@ -47,7 +47,12 @@ app.get('/favourites', async (req, res) => {
   try {
     const uuid = req.query.uuid;
     const favourites = await getFavourites(uuid);
-    res.json(favourites);
+    console.log("in favorites handler");
+    if (favourites) {
+      res.json(favourites)
+    } else {
+      res.json({})
+    }
   } catch (error) {
     console.log(error);
     res.status(500).send('Failed to fetch favourites');

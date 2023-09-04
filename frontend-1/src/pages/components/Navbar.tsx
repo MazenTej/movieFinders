@@ -102,7 +102,7 @@ const useStyles = createStyles((theme) => ({
 }));
 
 interface NavBarProps {
-  user: string;
+  user: string | undefined;
   searchValue: string;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }

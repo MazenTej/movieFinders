@@ -1,15 +1,21 @@
 import MovieCard from '../components/MovieCard';
 import { mov } from '../../dummydata';
 import './index.css';
+import { fetchFavorites } from './favoritesHandler';
+import { AuthContext } from '../../context/AuthContext'
+import { useContext, useEffect, useState } from 'react'
+import { styles } from './MovieCardStyling';
+import { Container } from '@mantine/core';
+import { Navbar } from '../components/Navbar';
 
 interface Movie {
   image: string;
   title: string;
   category: string;
-  info: string;
   mediaType: string;
   id: string;
 }
+
 
 
 function getFavoriteMovies(moviesArray: any[]): Movie[] {
@@ -25,7 +31,6 @@ function getFavoriteMovies(moviesArray: any[]): Movie[] {
           const parsedMovie: Movie = {
             title: movieTitle,
             category: movie.genres?.[0]?.name || "Unknown",
-            info: movie.type === 'series' ? `${movie.firstAirYear} - ${movie.lastAirYear}` : `${movie.year}`,
             image: movie.image,
             mediaType: movie.type,
             id : '1'
@@ -42,18 +47,26 @@ function getFavoriteMovies(moviesArray: any[]): Movie[] {
 }
 
 function Favorites() {
-  const testMovies = getFavoriteMovies(mov);
+  const { currentUser } = useContext(AuthContext);
+  var movies = getFavoriteMovies(mov);
+  const { classes } = styles();
 
-  const movieCards = testMovies.map((item) => (
-      <MovieCard {...item} />
-  ));
+  fetchFavorites(currentUser?.uid).then((res) => {
+    movies = res;
+  });
+
+  const movieCards = movies.map((item) => (
+    <MovieCard {...item} classes={classes} />
+    ));
       
   return (
       <div>
+        <div style={{ display: 'flex', flexDirection: 'column' }}>
           <h1 className='favorites-h1'>My Favorites</h1>
-          <div style={{ height: '600px',width:"1100px", overflowY: 'scroll', position:"relative" }}>
+          <div style={{ height: '600px',width:"100%", textAlign:"center"}}>
               {movieCards}
           </div>
+        </div>
       </div>
   );
 }

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { fetchDataFromApi } from "../../api";
 import MovieCard from "../components/MovieCard";
 import { Container, Grid } from '@mantine/core';
+import { styles } from '../components/MovieCardStyling';
 import './index.css'
 
 interface Movie {
@@ -11,6 +12,13 @@ interface Movie {
     info: string;
     mediaType: string;
     id: string;
+    classes: {
+        card: any,
+        image: any,
+        content: any,
+        title: any,
+        category: any
+    }
 }
   
 interface CardsCarouselProps {
@@ -89,6 +97,7 @@ export const SearchContent = ({ searchValue }: SearchContentProps) => {
                             category={movie.category}
                             mediaType={movie.mediaType}
                             id={movie.id}
+                            classes={styles().classes}
                         />
                         </Grid.Col>
                     )

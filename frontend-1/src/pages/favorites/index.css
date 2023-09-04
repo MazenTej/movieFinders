@@ -1,14 +1,13 @@
 body {
     background-color: grey;
+    display: inline;
 }
 
 .favorites-h1 {
-    color: rgba(0, 0, 0, 0.836);
-    position: relative;
+    position: inline;
     display: block;
     text-align: center;
-}
-
-.card {
-    display: inline;
+    padding-top: 10%;
+    margin: 20px;
+    color: #ad3ec9ab;
 }
