@@ -7,9 +7,9 @@ import "./SearchBar.css";
 const SearchBar = () => {
     const [input, setInput] = useState("")
 
-    const fetchData = (value) => {
+    // const fetchData = (value) => {
         
-    }
+    
     return (
         <div className="search-bar">
             <div className="input-wrapper">

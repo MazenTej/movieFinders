@@ -14,6 +14,7 @@ import {
 import { useDisclosure } from '@mantine/hooks';
 import { useState } from "react";
 import DropdownMenu from "./Dropdown/DropdownMenu";
+import SearchBar from './SearchBar';
 
 const HEADER_HEIGHT = rem(60);
 
@@ -158,6 +159,7 @@ export function Navbar({ user,setSelectedGenre,selectedGenre }: NavBarProps) {
           onChange={(value: string) => setSelectedGenre(value)} // Specify the type of 'value'
           placeholder="Select Genre"
         />
+        <SearchBar/>
         <div className={classes.user}>
           {user ? <div className="dropdown"
               onMouseEnter={onMouseEnter}
