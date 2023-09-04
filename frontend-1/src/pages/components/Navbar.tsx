@@ -14,6 +14,7 @@ import {
 import { useDisclosure } from '@mantine/hooks';
 import { useState } from "react";
 import DropdownMenu from "./Dropdown/DropdownMenu";
+import SearchBar from './Search';
 
 const HEADER_HEIGHT = rem(60);
 
@@ -102,12 +103,11 @@ const useStyles = createStyles((theme) => ({
 
 interface NavBarProps {
   user: string;
-  setSelectedGenre: React.Dispatch<React.SetStateAction<string>>; // Add prop type
-  selectedGenre: string; 
-
+  searchValue: string;
+  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-export function Navbar({ user,setSelectedGenre,selectedGenre }: NavBarProps) {
+export function Navbar({ user, searchValue, onChange}: NavBarProps) {
   const [opened, { toggle, close }] = useDisclosure(false);
   const [dropdownVisible, setDropdownVisibility] = useState(false);
   const { classes } = useStyles();
@@ -154,12 +154,7 @@ export function Navbar({ user,setSelectedGenre,selectedGenre }: NavBarProps) {
         <Group spacing={5} className={classes.links}>
           {items}
         </Group>
-        <Select
-          data={genresOptions}
-          value={selectedGenre}
-          onChange={(value: string) => setSelectedGenre(value)} // Specify the type of 'value'
-          placeholder="Select Genre"
-        />
+        <SearchBar value={searchValue} onChange={onChange}/>
         <div className={classes.user}>
           {user ? <div className="dropdown"
               onMouseEnter={onMouseEnter}

@@ -36,7 +36,6 @@ const Info: React.FC = () => {
         return (
         <>
         <div style={{ display: 'flex', flexDirection: 'column' }}>
-            <Navbar user="Mazen Tej" />
            <Container size={1200} style={{ marginTop: '120%' }}> 
                 <div className="info">
                 <Details />

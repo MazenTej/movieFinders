@@ -13,23 +13,30 @@ import { HomePage1 } from "./pages/Home/index"
 import AuthenticationForm from "./pages/auth/Login" 
 import LoginPortal from "./pages/auth/index"
 import Info from './pages/details';
+import { Navbar } from './pages/components/Navbar';
 
 
 
 function App() {
   const { currentUser } = useContext(AuthContext)
+  const [userName, setUserName] = React.useState('')
+  const [searchValue, setSearchValue] = React.useState('')
   const navigate = useNavigate()
-  console.log('User:', !!currentUser);
-
-  // Check if currentUser exists on initial render
+  
   useEffect(() => {
-    if (currentUser) {
-      navigate('/', {state: {userName: currentUser.email?.substring(0, currentUser.email.indexOf("@"))}})
-    }
+    setUserName(currentUser?.displayName || currentUser?.email?.split('@')[0] || '')
   }, [currentUser])
+
+  const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchValue(event.target.value)
+  }
     
   return (
     <MantineProvider withNormalizeCSS>
+         <Navbar user={userName} searchValue={searchValue} onChange={onChange} />
+    {
+      searchValue!=='' && <div> searching</div>
+    }
     <Routes>
       <Route index element={<HomePage1 />} />
       <Route path="/:mediaType/:id" element={<Info />} />

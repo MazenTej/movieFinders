@@ -4,6 +4,8 @@
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.11.1",
+    "@fortawesome/free-solid-svg-icons": "^6.4.2",
+    "@fortawesome/react-fontawesome": "^0.2.0",
     "@mantine/carousel": "^6.0.19",
     "@mantine/core": "^6.0.19",
     "@mantine/dates": "^6.0.19",

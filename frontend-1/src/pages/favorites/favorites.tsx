@@ -7,7 +7,8 @@ interface Movie {
   title: string;
   category: string;
   info: string;
-  type: string;
+  mediaType: string;
+  id: string;
 }
 
 
@@ -26,7 +27,8 @@ function getFavoriteMovies(moviesArray: any[]): Movie[] {
             category: movie.genres?.[0]?.name || "Unknown",
             info: movie.type === 'series' ? `${movie.firstAirYear} - ${movie.lastAirYear}` : `${movie.year}`,
             image: movie.image,
-            type: movie.type
+            mediaType: movie.type,
+            id : '1'
           };
   
           moviesData.push(parsedMovie);

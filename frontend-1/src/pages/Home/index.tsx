@@ -89,7 +89,6 @@ export function HomePage1() {
 
     return (
             <><div style={{ display: 'flex', flexDirection: 'column' }}>
-            <Navbar user="Mazen Tej" />
             <div className="discover">
                 <div className="discoverInfo">
                     <h1 className="discoverTitle">

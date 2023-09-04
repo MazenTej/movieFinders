@@ -56,7 +56,7 @@ interface MovieCardProps {
   id: string;
 }
 
-function MovieCard({ image, title, category, mediaType, id }: MovieCardProps) {
+function MovieCard({ image, title, category, mediaType, id  }: MovieCardProps) {
   const { classes } = useStyles();
   const redirect = () => {
     return window.location.href = `/${mediaType}/${id}}`
@@ -70,7 +70,7 @@ function MovieCard({ image, title, category, mediaType, id }: MovieCardProps) {
         style={{ backgroundImage: `url(${image})` }}
       ></div>
       <div className={classes.content}>
-      <span className={classes.category}>{info}</span>
+      <span className={classes.category}></span>
         <span className={classes.category}>{category}</span>
         <h3 className={classes.title}>{title}</h3>
       </div>
