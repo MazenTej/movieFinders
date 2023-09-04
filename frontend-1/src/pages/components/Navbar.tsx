@@ -1,5 +1,4 @@
 // deno-lint-ignore-file
-import React from 'react';
 import {
   createStyles,
   Header,
@@ -9,9 +8,12 @@ import {
   Paper,
   Transition,
   rem,
-  Avatar
+  Avatar,
+  Select
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
+import { useState } from "react";
+import DropdownMenu from "./Dropdown/DropdownMenu";
 
 const HEADER_HEIGHT = rem(60);
 
@@ -22,6 +24,7 @@ const useStyles = createStyles((theme) => ({
     left: 0,
     width: '100%',
     zIndex: 1,
+    marginBottom: "300px"
   },
 
   dropdown: {
@@ -99,16 +102,27 @@ const useStyles = createStyles((theme) => ({
 
 interface NavBarProps {
   user: string;
+  setSelectedGenre: React.Dispatch<React.SetStateAction<string>>; // Add prop type
+  selectedGenre: string; 
+
 }
 
-export function Navbar({ user }: NavBarProps) {
+export function Navbar({ user,setSelectedGenre,selectedGenre }: NavBarProps) {
   const [opened, { toggle, close }] = useDisclosure(false);
+  const [dropdownVisible, setDropdownVisibility] = useState(false);
   const { classes } = useStyles();
+  
+  const onMouseEnter = () => {
+    setDropdownVisibility(true);
+  }
+
+  const onMouseLeave = () => {
+    setDropdownVisibility(false);
+  }
 
   const items = [
     { label: 'Movies', link: './Movies/Movies.tsx' },
     { label: 'Series', link: '/series' },
-    { label: 'Documentaries', link: '/documentaries' },
   ].map((link) => (
     <a
       key={link.label}
@@ -122,6 +136,15 @@ export function Navbar({ user }: NavBarProps) {
       {link.label}
     </a>
   ));
+  const genresOptions = [
+    {value: 'all', label: 'All'},
+    { value: 'action', label: 'Action' },
+    { value: 'drama', label: 'Drama' },
+    { value: 'comedy', label: 'Comedy' },
+    {value: 'documentary',label:'Documentary'},
+    {value: 'horror',label:"Horror"}
+    // Add more genres as needed
+  ];
 
   return (
     <Header height={HEADER_HEIGHT} className={classes.root}>
@@ -129,12 +152,27 @@ export function Navbar({ user }: NavBarProps) {
         <Group spacing={5} className={classes.links}>
           {items}
         </Group>
+        <Select
+          data={genresOptions}
+          value={selectedGenre}
+          onChange={(value: string) => setSelectedGenre(value)} // Specify the type of 'value'
+          placeholder="Select Genre"
+        />
         <div className={classes.user}>
-        <Avatar size={28} radius="xl" color="blue">
-            MT
-          </Avatar>
-          <span className={classes.userName}>{user}</span>
+          {user ? <div className="dropdown"
+              onMouseEnter={onMouseEnter}
+              onMouseLeave={onMouseLeave}>
+              <Avatar size={28} radius="xl" color="grape.7" ></Avatar>
+              {dropdownVisible && <DropdownMenu />}
+            </div> : ""}
+          {user ? 
+            <span className={classes.userName}>{user}</span>
+          : <a key='sign-in' href='/login' className={classes.link}>
+              Sign-in / Sign-up
+            </a>
+          }
         </div>
+       
         <Burger opened={opened} onClick={toggle} className={classes.burger} size="sm" />
         <Transition transition="pop-top-right" duration={200} mounted={opened}>
           {(styles) => (

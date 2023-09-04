@@ -22,10 +22,14 @@
     "@types/node": "^16.18.40",
     "@types/react": "^18.2.20",
     "@types/react-dom": "^18.2.7",
+    "@types/react-lazy-load-image-component": "^1.5.3",
+    "axios": "^1.4.0",
     "dayjs": "^1.11.9",
     "embla-carousel-react": "^7.1.0",
     "firebase": "^10.1.0",
     "react": "^18.2.0",
+    "react-circular-progressbar": "^2.1.0",
+    "react-comments-section": "^2.0.10",
     "react-dom": "^18.2.0",
     "react-icons": "^4.10.1",
     "react-router-dom": "^6.15.0",
@@ -56,5 +60,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11"
   }
 }

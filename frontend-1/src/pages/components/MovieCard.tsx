@@ -1,125 +1,76 @@
-// deno-lint-ignore-file
-import React, { useState,useEffect,useRef } from 'react';
-import { Paper, Text, Title, Button, createStyles, rem } from '@mantine/core';
+import { createStyles, rem } from '@mantine/core';
+import React from 'react';
 
 const useStyles = createStyles((theme) => ({
   card: {
-    height: rem(440),
+    width: rem(240),
+    height: rem(420),
     display: 'flex',
     flexDirection: 'column',
-    justifyContent: 'space-between',
-    alignItems: 'flex-start',
+    overflow: 'hidden',
+    borderRadius: theme.radius.md,
+    background: 'linear-gradient(180deg, #000000 0%, #1C151D 50.52%, #48344B 73.44%, rgba(199, 51, 223, 0.87) 99.99%, rgba(216, 0, 251, 0.87) 100%);', 
+    transition: 'transform 0.3s ease',
+    '&:hover': {
+      transform: 'scale(1.05)',
+    },
+  },
+
+  image: {
+    flex: 1,  
+    width: '100%',
     backgroundSize: 'cover',
     backgroundPosition: 'center',
-    position: 'relative',
+  },
+
+  content: {
+    height: rem(100),  // set a consistent height for the content
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',  // center the content vertically
+    padding: theme.spacing.md,
   },
 
   title: {
     fontFamily: `Greycliff CF, ${theme.fontFamily}`,
     fontWeight: 900,
-    color: theme.black,
+    color: theme.white,
     lineHeight: 1.2,
-    fontSize: rem(32),
+    fontSize: rem(19),
     marginTop: theme.spacing.xs,
   },
 
   category: {
-    color: theme.black,
-    opacity: 0.7,
+    color: theme.white,
+    opacity: 0.8,
     fontWeight: 700,
     textTransform: 'uppercase',
   },
-
-  infoWrapper: {
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
-    right: 0,
-    padding: theme.spacing.md,
-    backgroundColor: 'rgba(0, 0, 0, 0.8)',
-    color: theme.white,
-    opacity: 0,
-    transform: 'translateY(100%)', 
-    transition: 'opacity 0.3s ease, transform 0.3s ease',
-  },
-
-  infoVisible: {
-    opacity: 1,
-    transform: 'translateY(0%)',
-  },
-
-  showMoreButton: {
-    position: 'absolute',
-    bottom: theme.spacing.md,
-    left: theme.spacing.md,
-  },
-  showButtonVisible: {
-    marginBottom: "50px"
-  },
-
-  infoVisibleButton: {
-    position: 'relative',
-    bottom: 'auto',
-    zIndex: 1,
-  },
 }));
+
 interface MovieCardProps {
-    image: string;
-    title: string;
-    category: string;
-    info: string;
-  }
+  image: string;
+  title: string;
+  category: string;
+  info: string;
+  type: string;
+}
 
-
-function MovieCard({ image, title, category, info }: MovieCardProps) {
+function MovieCard({ image, title, category,info,type }: MovieCardProps) {
   const { classes } = useStyles();
-  const [showMore, setShowMore] = useState(false);
-
-  const toggleShowMore = () => {
-    setShowMore(!showMore);
-  };
-  const infoRef = useRef(null); 
-  const [infoHeight, setInfoHeight] = useState(0);
-
-  useEffect(() => {
-    if (infoRef.current) {
-      setInfoHeight((infoRef.current as HTMLElement).clientHeight);
-    }
-  }, [info]);
 
   return (
-    <>
-    <Title order={3} className={classes.title}>
-        {title}
-      </Title>
-      <Text className={classes.category} size="xs">
-        {category}
-      </Text>
-    <Paper
-    shadow="md"
-    p="xl"
-    radius="md"
-    sx={{ backgroundImage: `url(${image})` }}
-    className={classes.card}
-  >
-    <div>
-      <Button
-        onClick={toggleShowMore}
-        variant="white"
-        className={`${classes.showMoreButton} ${showMore ? classes.showButtonVisible : ''}`}
-        style={{ marginBottom: showMore ? `${infoHeight}px` : '0' }}
-      >
-        {showMore ? 'Show Less' : 'Show More'}
-      </Button>
+    <div className={classes.card}>
       <div
-        ref={infoRef}
-        className={`${classes.infoWrapper} ${showMore ? classes.infoVisible : ''}`}
-      >
-        <Text>{info}</Text>
+        className={classes.image}
+        style={{ backgroundImage: `url(${image})` }}
+      ></div>
+      <div className={classes.content}>
+      <span className={classes.category}>{info}</span>
+        <span className={classes.category}>{category}</span>
+        <h3 className={classes.title}>{title}</h3>
       </div>
     </div>
-  </Paper>
-  </>
   );
 }
 
