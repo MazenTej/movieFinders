@@ -13,7 +13,9 @@ interface availableServericesProps {
 
 
 async function getAvailableServices(mediaType: string, id: string) {
+    try {
     const response = await fetchDataFromApi(`/${mediaType}/${id}/watch/providers?language=en-US`)
+    
     const BuyServices = response.results.US.buy.map((service: any) => {
         return {
             name: service.provider_name,
@@ -29,6 +31,13 @@ async function getAvailableServices(mediaType: string, id: string) {
     return {
         rent: RentServices,
         buy: BuyServices
+    }
+} catch (error) {
+    console.log(error)
+}
+    return {
+        rent: [],
+        buy: []
     }
 }
 

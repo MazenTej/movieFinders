@@ -9,7 +9,7 @@ const useStyles = createStyles((theme) => ({
     flexDirection: 'column',
     overflow: 'hidden',
     borderRadius: theme.radius.md,
-    background: 'linear-gradient(180deg, #000000 0%, #1C151D 50.52%, #48344B 73.44%, rgba(199, 51, 223, 0.87) 99.99%, rgba(216, 0, 251, 0.87) 100%);', 
+    background: 'linear-gradient(0deg, rgba(120,1,120,1) 1%, rgba(1,0,1,1) 23%)', 
     transition: 'transform 0.3s ease',
     '&:hover': {
       transform: 'scale(1.05)',
