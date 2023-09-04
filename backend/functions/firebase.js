@@ -30,7 +30,8 @@ const addFavourite = async (favourite) => {
         title: favourite.title,
         category: favourite.category,
         info: favourite.info,
-        type: favourite.type,
+        mediaType: favourite.type,
+        id : favourite.id,
       };
       const uuid = favourite.uuid;
       const favouriteRef = db.collection('favourites').doc(uuid);
@@ -128,7 +129,6 @@ const getCommentsForMovie = async (movieId) => {
   
     } catch (error) {
       console.error("Error updating average rating:", error);
-      // Handle the error appropriately
     }
   };
   
