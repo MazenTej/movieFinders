@@ -15,6 +15,9 @@ import { useDisclosure } from '@mantine/hooks';
 import { useState } from "react";
 import DropdownMenu from "./Dropdown/DropdownMenu";
 import SearchBar from './Search';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faHouse } from '@fortawesome/free-solid-svg-icons';
+import { Link } from 'react-router-dom';
 
 const HEADER_HEIGHT = rem(60);
 
@@ -128,10 +131,6 @@ export function Navbar({ user, searchValue, onChange}: NavBarProps) {
       key={link.label}
       href={link.link}
       className={classes.link}
-      onClick={(event) => {
-        event.preventDefault();
-        close();
-      }}
     >
       {link.label}
     </a>
@@ -152,6 +151,7 @@ export function Navbar({ user, searchValue, onChange}: NavBarProps) {
     <Header height={HEADER_HEIGHT} className={classes.root}>
       <Container className={classes.header}>
         <Group spacing={5} className={classes.links}>
+          <Link to='/'><FontAwesomeIcon icon={faHouse} /></Link>
           {items}
         </Group>
         <SearchBar value={searchValue} onChange={onChange}/>

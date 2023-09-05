@@ -6,10 +6,12 @@
     display: grid;
     grid-template-columns: 1fr 1fr; /* This creates two columns each taking up half the container */
     align-items: center; /* Optional: if you want to align items vertically in the center */
-    justify-items: center; 
+    justify-items: center;
 }
+
 .discoverInfo, .discoverImage {
     flex: 1;
+    z-index: 0;
   }
   .discoverTitle {
     word-wrap: break-word;  /* Break the word */
@@ -24,7 +26,6 @@
     max-width: 500px;
     height: 750px;
     object-fit: cover;
-    border-radius:50%;
   }
   
 .discoverInfo{
@@ -34,7 +35,6 @@
     max-width: 500px;
     height: 750px;
     object-fit: cover;
-    border-radius:50%;
 }
 .discoverDescription{
     margin-top: 20px;

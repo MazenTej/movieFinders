@@ -1,5 +1,4 @@
 import { Button } from '@mantine/core';
-import './movieCard.css'
 interface MovieCardProps {
   image: string;
   title: string;

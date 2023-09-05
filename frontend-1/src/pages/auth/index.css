@@ -34,7 +34,7 @@
 }
 
 body {
-    display: flex;
+    display: block;
     justify-content: center;
     align-items: center;
     height: 100vh;
@@ -51,7 +51,6 @@ h1 {
     text-transform: uppercase;
     text-shadow: 0 0 0.15em #1da9cc;
     user-select: none;
-    white-space: nowrap;
     filter: blur(0.007em);
     animation: shake 2.5s linear forwards;
 }

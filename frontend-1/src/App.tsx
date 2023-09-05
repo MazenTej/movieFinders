@@ -15,6 +15,7 @@ import LoginPortal from "./pages/auth/index"
 import Info from './pages/details';
 import { Navbar } from './pages/components/Navbar';
 import { SearchContent } from './pages/search';
+import { MoviesPage } from './pages/movies/index';
 
 
 
@@ -35,7 +36,6 @@ function App() {
   return (
     <MantineProvider withNormalizeCSS>
       <AppShell
-                padding="md"
                 header={<Navbar user={userName} searchValue={searchValue} onChange={onChange} />}
                 >
          
@@ -44,6 +44,8 @@ function App() {
           }
     <Routes>
       <Route index element={<HomePage1 searchValue={searchValue}/>} />
+      <Route path="movies" element={
+        <MoviesPage searchValue={searchValue}/>}/>
       <Route path="/:mediaType/:id" element={<Info />} />
       <Route path="login" element={<LoginPortal text='Login to continue'>
         <AuthenticationForm />

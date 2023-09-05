@@ -123,9 +123,7 @@ export function HomePage1( {searchValue}: HomePageProps) {
     }, [])
 
     return (
-            <>
-             
-             <Container size={1200} style={{ marginTop: '5%' }}> 
+             <Container size={1200} style={{ marginTop: '5%', overflow: 'scroll'}}> 
            
             <div className="discover">
                 <div className="discoverInfo">
@@ -167,6 +165,5 @@ export function HomePage1( {searchValue}: HomePageProps) {
                 {topRated ? <CardsCarousel movies={topRated.movies} /> : null}
             </Container>
         </Container>
-        </>
     )
 }
