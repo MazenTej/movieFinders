@@ -29,7 +29,7 @@ const addFavourite = async (favourite) => {
         image: favourite.image,
         title: favourite.title,
         category: favourite.category,
-        mediaType: favourite.type,
+        mediaType: favourite.mediaType,
         id : favourite.id,
       };
       const uuid = favourite.uuid;

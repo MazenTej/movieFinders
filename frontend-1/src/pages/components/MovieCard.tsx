@@ -1,3 +1,5 @@
+import { Button } from '@mantine/core';
+import './movieCard.css'
 interface MovieCardProps {
   image: string;
   title: string;
@@ -20,6 +22,7 @@ function MovieCard({ image, title, category, mediaType, id, classes  }: MovieCar
 
   return (
     <div className={classes.card} onClick={redirect}>
+      
       <div
         className={classes.image}
         style={{ backgroundImage: `url(${image})` }}

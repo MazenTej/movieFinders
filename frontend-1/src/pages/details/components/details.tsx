@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { fetchMovieDetails, fetchMovieCredits, fetchMovieVideos } from './fetchMovieDetails'
 import Img from "./Img";
 import { Rating } from '@mantine/core';
+import Heart from "react-animated-heart";
 
 import PosterFallback from "../../../assets/no-poster.png";
 import dayjs from "dayjs";
@@ -11,6 +12,9 @@ import "./details.css";
 import { useParams } from "react-router-dom";
 import VideoPopup from "./videoPopUp";
 import AvailableServices from "./services"
+import axios from "axios";
+import { AuthContext } from "../../../context/AuthContext";
+import { API_URL } from "../../../api";
 // import Videos from "./videos";
 
 type Person = {
@@ -47,11 +51,13 @@ interface RequiredDetails{
 
 export const Details = () => {
     const { mediaType, id } = useParams();
+    const { currentUser } = useContext(AuthContext);
     const [movieDetails, setMovieDetails] = useState<RequiredDetails>();
     const [show, setShow] = useState(false);
     const [videoId, setVideoId] = useState(null);
     const [loading, setLoading] = useState(true);
     const [relatedVideos, setRelatedVideos] = useState([]);
+    const [isClick, setClick] = useState(false);
     
     React.useEffect(() => {
         if(mediaType && id){
@@ -105,6 +111,27 @@ export const Details = () => {
         const minutes = totalMinutes % 60;
         return `${hours}h${minutes > 0 ? ` ${minutes}m` : ""}`;
     };
+
+    React.useEffect(() => {
+        if (isClick && currentUser?.uid !== undefined) {
+            const favourites = {
+                uuid: currentUser.uid,
+                image: movieDetails?.poster_path,
+                title: movieDetails?.name,
+                category: movieDetails?.genres,
+                mediaType: mediaType,
+                id : id
+            };
+    
+            axios.post(`${API_URL}/favourites`, favourites)
+            .then((response: { data: any; }) => {
+                console.log('Favourite added successfully: ', response.data);
+            })
+            .catch((error: any) => {
+                console.log('Failed to add favourite: ', error);
+            });
+        }
+    }, [isClick, movieDetails, mediaType, id]);
     
     return (
         <section className="details section">
@@ -139,7 +166,12 @@ export const Details = () => {
                                     Watch Trailer
                                 </span>
                             </div>
-                            
+                            <Heart isClick={isClick} onClick={() => setClick(!isClick)} />
+                                <span className="text" style={{
+                                    marginLeft: "-40px"
+                                }}>
+                                    Add to Watchlist
+                                </span>
                             
                         </div>}
                         <div className="movie-overview">

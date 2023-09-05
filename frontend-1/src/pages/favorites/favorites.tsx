@@ -50,10 +50,22 @@ function Favorites() {
   const { currentUser } = useContext(AuthContext);
   var movies = getFavoriteMovies(mov);
   const { classes } = styles();
+  const [favoriteMovies, setFavoriteMovies] = useState<Movie[]>([]);
 
-  fetchFavorites(currentUser?.uid).then((res) => {
-    movies = res;
-  });
+  useEffect(() => {
+    const fetchData = async () => {
+      if (currentUser && currentUser.uid) {
+        try {
+          const fetchedFavorites = await fetchFavorites(currentUser.uid);
+          setFavoriteMovies(fetchedFavorites);
+        } catch (error) {
+          console.error('Error fetching favorites:', error);
+        }
+      }
+    };
+
+    fetchData();
+  }, [currentUser]);
 
   const movieCards = movies.map((item) => (
     <MovieCard {...item} classes={classes} />
@@ -64,7 +76,16 @@ function Favorites() {
         <div style={{ display: 'flex', flexDirection: 'column' }}>
           <h1 className='favorites-h1'>My Favorites</h1>
           <div style={{ height: '600px',width:"100%", textAlign:"center"}}>
-              {movieCards}
+              {favoriteMovies ?
+                <Container style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
+                  {favoriteMovies.map((movie) => (
+                    <MovieCard {...movie} classes={classes} />
+                  ))}
+                </Container>
+                :
+                <h1 className='favorites-h1'>No favorites yet!</h1>
+              }
+                
           </div>
         </div>
       </div>

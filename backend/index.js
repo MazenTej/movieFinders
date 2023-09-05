@@ -61,6 +61,7 @@ app.get('/favourites', async (req, res) => {
 
 app.post('/favourites', async (req, res) => {
   try {
+    console.log(req.body)
     await addFavourite(req.body);
     res.status(201).send('Favourite added successfully');
   } catch (error) {
