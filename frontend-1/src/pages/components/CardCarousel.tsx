@@ -2,7 +2,6 @@ import React from 'react';
 import { Carousel } from '@mantine/carousel';
 import { useMantineTheme} from '@mantine/core';
 import MovieCard from './MovieCard';
-import { styles } from './MovieCardStyling';
 
 interface Movie {
   image: string;
@@ -19,11 +18,10 @@ interface CardsCarouselProps {
 
 export function CardsCarousel({ movies }: CardsCarouselProps) {
   const theme = useMantineTheme();
-  const { classes } = styles();
   
   const slides = movies.map((movie) => (
     <Carousel.Slide key={movie.title}>
-      <MovieCard {...movie} classes={classes} />
+      <MovieCard {...movie}/>
     </Carousel.Slide>
   ));
 

@@ -4,7 +4,6 @@ import './index.css';
 import { fetchFavorites } from './favoritesHandler';
 import { AuthContext } from '../../context/AuthContext'
 import { useContext, useEffect, useState } from 'react'
-import { styles } from './MovieCardStyling';
 import { Container } from '@mantine/core';
 import { Navbar } from '../components/Navbar';
 
@@ -49,7 +48,6 @@ function getFavoriteMovies(moviesArray: any[]): Movie[] {
 function Favorites() {
   const { currentUser } = useContext(AuthContext);
   var movies = getFavoriteMovies(mov);
-  const { classes } = styles();
   const [favoriteMovies, setFavoriteMovies] = useState<Movie[]>([]);
 
   useEffect(() => {
@@ -68,7 +66,7 @@ function Favorites() {
   }, [currentUser]);
 
   const movieCards = movies.map((item) => (
-    <MovieCard {...item} classes={classes} />
+    <MovieCard {...item} />
     ));
       
   return (
@@ -79,7 +77,7 @@ function Favorites() {
               {favoriteMovies ?
                 <Container style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
                   {favoriteMovies.map((movie) => (
-                    <MovieCard {...movie} classes={classes} />
+                    <MovieCard {...movie}/>
                   ))}
                 </Container>
                 :
