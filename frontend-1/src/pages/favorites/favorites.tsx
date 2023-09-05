@@ -74,7 +74,7 @@ function Favorites() {
   return (
       <div>
         <div style={{ display: 'flex', flexDirection: 'column' }}>
-          <h1 className='favorites-h1'>My Favorites</h1>
+          <h1 className='favorites-h1'>My Watchlist</h1>
           <div style={{ height: '600px',width:"100%", textAlign:"center"}}>
               {favoriteMovies ?
                 <Container style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
