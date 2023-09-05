@@ -9,7 +9,7 @@ const DropdownMenu = () => {
   return (
     <div className="dropdown-menu">
         <Link to='/profile'>Profile</Link>
-        <Link to='/favorites'>Favorites</Link>
+        <Link to='/favorites'>WatchList</Link>
         <Link to='/' onClick={signOut}>Sign out</Link>
     </div>
   );

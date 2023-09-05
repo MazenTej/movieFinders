@@ -16,6 +16,7 @@ import Info from './pages/details';
 import { Navbar } from './pages/components/Navbar';
 import { SearchContent } from './pages/search';
 import { MoviesPage } from './pages/movies/index';
+import { SeriesPage } from './pages/series';
 
 
 
@@ -44,6 +45,7 @@ function App() {
           }
     <Routes>
       <Route index element={<HomePage1 searchValue={searchValue}/>} />
+      <Route path="series" element={<SeriesPage searchValue={searchValue}/>}/>
       <Route path="movies" element={
         <MoviesPage searchValue={searchValue}/>}/>
       <Route path="/:mediaType/:id" element={<Info />} />

@@ -5,16 +5,16 @@ import { Navbar } from "../components/Navbar";
 import { AppShell, Container } from "@mantine/core";
 import { SearchContent } from "../search";
 
-async function getMoviesByProviders() {
+async function getseriesByProviders() {
 
-    const movieResponse = await fetchDataFromApi('/movie/top_rated?language=en-US&page=1')
-        const movies = movieResponse.results.map((movie: any) => {
+    const movieResponse = await fetchDataFromApi('/tv/top_rated?language=en-US&page=1')
+        const movies = movieResponse.results.map((tv: any) => {
             return {
-                image: `https://image.tmdb.org/t/p/original${movie.poster_path}`,
-                title: movie.title,
-                category: "Movie",
-                mediaType: "movie",
-                id: movie.id
+                image: `https://image.tmdb.org/t/p/original${tv.poster_path}`,
+                title: tv.name,
+                category: "TV",
+                mediaType: "tv",
+                id: tv.id
             }
         })
   
@@ -37,11 +37,11 @@ interface MoviesPageProps {
     searchValue: string;
 }
 
-export function MoviesPage( {searchValue}: MoviesPageProps) {
+export function SeriesPage( {searchValue}: MoviesPageProps) {
     const [movies, setMovies] = React.useState<Movie[]>([]); // Initialize with an empty array
 
     useEffect(()=> {
-        getMoviesByProviders().then((gotMovies)=> {
+        getseriesByProviders().then((gotMovies)=> {
             setMovies(gotMovies)
         })
     },[])
