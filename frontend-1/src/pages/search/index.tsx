@@ -75,8 +75,8 @@ export const SearchContent = ({ searchValue }: SearchContentProps) => {
     }, [searchValue]);
     
     return(
-        <Container size={1200} style={{ marginTop: '40%' }}>
-            <h1>Search Results for {searchValue}</h1>
+        <Container size={1200} style={{ marginTop: '20px' }}>
+            <h1 style={{ marginBottom: '10px' }}>Search Results for {searchValue}</h1>
             <Grid>
             {
                 
