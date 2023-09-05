@@ -4,7 +4,7 @@ import './index.css';
 import { fetchFavorites } from './favoritesHandler';
 import { AuthContext } from '../../context/AuthContext'
 import { useContext, useEffect, useState } from 'react'
-import { Container } from '@mantine/core';
+import { Container, Grid } from '@mantine/core';
 import { Navbar } from '../components/Navbar';
 
 interface Movie {
@@ -55,6 +55,7 @@ function Favorites() {
       if (currentUser && currentUser.uid) {
         try {
           const fetchedFavorites = await fetchFavorites(currentUser.uid);
+          console.log('fetchedFavorites:', fetchedFavorites);
           setFavoriteMovies(fetchedFavorites);
         } catch (error) {
           console.error('Error fetching favorites:', error);
@@ -76,9 +77,13 @@ function Favorites() {
           <div style={{ height: '600px',width:"100%", textAlign:"center"}}>
               {favoriteMovies ?
                 <Container style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
+                <Grid>
                   {favoriteMovies.map((movie) => (
+                    <div style={{ margin: '10px' }}>
                     <MovieCard {...movie}/>
+                    </div>
                   ))}
+                </Grid>
                 </Container>
                 :
                 <h1 className='favorites-h1'>No favorites yet!</h1>
