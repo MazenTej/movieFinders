@@ -22,4 +22,4 @@ export const fetchDataFromApi = async (url: string, params?: FetchParams): Promi
     }
 };
 
-export const API_URL = "http://localhost:4000";
+export const API_URL = "https://backend-omega-two.vercel.app";
