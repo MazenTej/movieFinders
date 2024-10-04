@@ -1,19 +1,43 @@
-dev server --linked to dev branc
-https://375-moviefinder-dev.netlify.app/
+# Movie Watchlist Site
 
-production server -- linked to main branch
-moviefinder-375.netlify.app
+## Overview
+Welcome to the **Movie Watchlist Site** repository, a web platform designed for movie enthusiasts to explore, track, and review their favorite movies. Whether you're searching for the latest releases, timeless classics, or seeking recommendations, this site provides a comprehensive experience with trailers, streaming platform availability, and user-generated reviews.
 
-Movie Watchlist Site
-Welcome to the official repository of our Movie Watchlist Site, a dynamic web platform dedicated to movie enthusiasts. This website offers a comprehensive and interactive way to explore, track, and review your favorite movies. It's a one-stop destination for all movie-related information, trailers, streaming service availability, and user-generated reviews.
+The platform is available on two servers:
+- **Development Server** (Linked to the dev branch): [Dev Server](https://375-moviefinder-dev.netlify.app/)
+- **Production Server** (Linked to the main branch): [Production Server](https://moviefinder-375.netlify.app/)
 
-About the Site
-Our Movie Watchlist Site is designed to cater to the needs of every cinema lover. Whether you're looking for the latest releases, classic gems, or seeking recommendations, our site offers an extensive database of movies fetched from various API endpoints.
+## Key Features
 
-Key Features:
-User Account Management: Secure and personalized user experiences with individual account settings.
-Dynamic Movie Pages: Each movie has its own dedicated page featuring trailers, current streaming platforms, and ratings from various services.
-Interactive Movie Reviews: Users can post comments and reviews on movie pages, fostering a community of movie lovers.
-Favorites List: Easily add movies to your favorites list and keep track of your must-watch films.
-Advanced Search: Find movies based on specific criteria like genre, release year, director, etc.
-Responsive Design: Accessible on various devices with a design that adapts for the best user experience.
+- **User Account Management**: Secure and personalized experiences with individual account settings.
+- **Dynamic Movie Pages**: Each movie has a dedicated page that showcases trailers, current streaming platforms, and ratings from multiple services.
+- **Interactive Movie Reviews**: Users can post comments and reviews, fostering a community of cinema lovers.
+- **Favorites List**: Users can easily add movies to their watchlist and keep track of must-watch films.
+- **Advanced Search**: Search for movies based on criteria such as genre, release year, director, and more.
+- **Responsive Design**: The website is fully responsive, ensuring a seamless experience on both mobile and desktop devices.
+
+## Tech Stack
+
+### Frontend:
+- **React.js**: Frontend library for building dynamic user interfaces.
+- **Redux**: State management for handling global app states.
+- **Netlify**: Deployment platform for both development and production environments.
+
+### Backend:
+- **Firebase**: Used for user authentication and backend storage.
+- **Node.js**: Server-side runtime for executing backend logic and API calls.
+
+## Development and Production Links
+
+- **Development Server** (linked to the `dev` branch):  
+  [https://375-moviefinder-dev.netlify.app/](https://375-moviefinder-dev.netlify.app/)
+
+- **Production Server** (linked to the `main` branch):  
+  [https://moviefinder-375.netlify.app/](https://moviefinder-375.netlify.app/)
+
+## How to Run Locally
+
+1. **Clone the repository**:
+   ```bash
+   git clone https://github.com/username/moviefinder.git
+   run npm run start 
